@@ -30,3 +30,14 @@ func (l *linkedList[T]) Some(callback func(T, int, *linkedList[T]) bool) bool {
 	}
 	return false
 }
+
+func (l *linkedList[T]) Every(callback func(T, int, *linkedList[T]) bool) bool {
+	current := l.head
+	for i := 0; i < l.length; i++ {
+		if !callback(current.value, i, l) {
+			return false
+		}
+		current = current.next
+	}
+	return true
+}

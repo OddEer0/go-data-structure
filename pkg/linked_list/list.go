@@ -15,6 +15,7 @@ type (
 		Copy() *linkedList[T]
 		Map(callback func(T, int, *linkedList[T]) T) *linkedList[T]
 		Some(callback func(T, int, *linkedList[T]) bool) bool
+		Every(callback func(T, int, *linkedList[T]) bool) bool
 	}
 
 	node[T any] struct {
