@@ -53,3 +53,49 @@ func (l *linkedList[T]) Filter(callback tCallbackR[T, bool]) *linkedList[T] {
 
 	return newList
 }
+
+func (l *linkedList[T]) Find(callback tCallbackR[T, bool]) T {
+	current := l.head
+	for i := 0; i < l.length; i++ {
+		if callback(current.value, i, l) {
+			return current.value
+		}
+		current = current.next
+	}
+	var res T
+	return res
+}
+
+func (l *linkedList[T]) FindLast(callback tCallbackR[T, bool]) T {
+	current := l.tail
+	for i := l.length - 1; i >= 0; i-- {
+		if callback(current.value, i, l) {
+			return current.value
+		}
+		current = current.prev
+	}
+	var res T
+	return res
+}
+
+func (l *linkedList[T]) FindIndex(callback tCallbackR[T, bool]) int {
+	current := l.head
+	for i := 0; i < l.length; i++ {
+		if callback(current.value, i, l) {
+			return i
+		}
+		current = current.next
+	}
+	return -1
+}
+
+func (l *linkedList[T]) FindIndexLast(callback tCallbackR[T, bool]) int {
+	current := l.tail
+	for i := l.length - 1; i >= 0; i-- {
+		if callback(current.value, i, l) {
+			return i
+		}
+		current = current.prev
+	}
+	return -1
+}

@@ -14,12 +14,16 @@ type (
 		Insert(index int, item T) // O(n)
 		Size() int                // O(1)
 		Remove(index int)         // O(n)
-		Copy() *linkedList[T]
+		Copy() *linkedList[T]     // O(n)
 		ForEach(callback tCallback[T])
 		Map(callback tCallbackR[T, T]) *linkedList[T]
 		Some(callback tCallbackR[T, bool]) bool
 		Every(callback tCallbackR[T, bool]) bool
 		Filter(callback tCallbackR[T, bool]) *linkedList[T]
+		Find(callback tCallbackR[T, bool]) T
+		FindLast(callback tCallbackR[T, bool]) T
+		FindIndex(callback tCallbackR[T, bool]) int
+		FindIndexLast(callback tCallbackR[T, bool]) int
 	}
 
 	node[T any] struct {
