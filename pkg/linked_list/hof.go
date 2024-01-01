@@ -1,6 +1,6 @@
 package linked_list
 
-func (l *linkedList[T]) ForEach(callback func(T, int, *linkedList[T])) {
+func (l *linkedList[T]) ForEach(callback tCallback[T]) {
 	current := l.head
 	for i := 0; i < l.length; i++ {
 		callback(current.value, i, l)
@@ -8,7 +8,7 @@ func (l *linkedList[T]) ForEach(callback func(T, int, *linkedList[T])) {
 	}
 }
 
-func (l *linkedList[T]) Map(callback func(T, int, *linkedList[T]) T) *linkedList[T] {
+func (l *linkedList[T]) Map(callback tCallbackR[T, T]) *linkedList[T] {
 	newList := l.Copy()
 	current := l.head
 	newListCurrent := newList.head
@@ -20,7 +20,7 @@ func (l *linkedList[T]) Map(callback func(T, int, *linkedList[T]) T) *linkedList
 	return newList
 }
 
-func (l *linkedList[T]) Some(callback func(T, int, *linkedList[T]) bool) bool {
+func (l *linkedList[T]) Some(callback tCallbackR[T, bool]) bool {
 	current := l.head
 	for i := 0; i < l.length; i++ {
 		if callback(current.value, i, l) {
@@ -31,7 +31,7 @@ func (l *linkedList[T]) Some(callback func(T, int, *linkedList[T]) bool) bool {
 	return false
 }
 
-func (l *linkedList[T]) Every(callback func(T, int, *linkedList[T]) bool) bool {
+func (l *linkedList[T]) Every(callback tCallbackR[T, bool]) bool {
 	current := l.head
 	for i := 0; i < l.length; i++ {
 		if !callback(current.value, i, l) {
@@ -40,4 +40,16 @@ func (l *linkedList[T]) Every(callback func(T, int, *linkedList[T]) bool) bool {
 		current = current.next
 	}
 	return true
+}
+
+func (l *linkedList[T]) Filter(callback tCallbackR[T, bool]) *linkedList[T] {
+	newList := &linkedList[T]{}
+
+	l.ForEach(func(item T, index int, list *linkedList[T]) {
+		if callback(item, index, list) {
+			newList.Push(item)
+		}
+	})
+
+	return newList
 }

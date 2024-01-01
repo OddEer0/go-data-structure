@@ -1,6 +1,9 @@
 package linked_list
 
 type (
+	tCallback[T any]         func(T, int, *linkedList[T])
+	tCallbackR[T any, R any] func(T, int, *linkedList[T]) R
+
 	LinkedList[T any] interface {
 		Push(item T)              // O(1)
 		Pop() T                   // O(1)
@@ -11,11 +14,12 @@ type (
 		Insert(index int, item T) // O(n)
 		Size() int                // O(1)
 		Remove(index int)         // O(n)
-		ForEach(callback func(T, int, *linkedList[T]))
 		Copy() *linkedList[T]
-		Map(callback func(T, int, *linkedList[T]) T) *linkedList[T]
-		Some(callback func(T, int, *linkedList[T]) bool) bool
-		Every(callback func(T, int, *linkedList[T]) bool) bool
+		ForEach(callback tCallback[T])
+		Map(callback tCallbackR[T, T]) *linkedList[T]
+		Some(callback tCallbackR[T, bool]) bool
+		Every(callback tCallbackR[T, bool]) bool
+		Filter(callback tCallbackR[T, bool]) *linkedList[T]
 	}
 
 	node[T any] struct {
