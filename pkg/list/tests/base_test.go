@@ -1,12 +1,12 @@
 package tests
 
 import (
-	"github.com/OddEer0/go-data-structure/pkg/linked_list"
+	llist "github.com/OddEer0/go-data-structure/pkg/list"
 	"testing"
 )
 
-func FirstMockList() linked_list.LinkedList[int] {
-	list := linked_list.NewLinkedList[int]()
+func FirstMockList() llist.IList[int] {
+	list := llist.NewLinkedList[int]()
 
 	list.Push(1)
 	list.Push(2)
@@ -22,14 +22,14 @@ func FirstMockList() linked_list.LinkedList[int] {
 
 func TestBaseLinkedList(t *testing.T) {
 	t.Run("Should init linked list", func(t *testing.T) {
-		list := linked_list.NewLinkedList[int]()
+		list := llist.NewLinkedList[int]()
 		if list == nil {
 			t.Errorf("fail init list")
 		}
 	})
 
 	t.Run("Should push and get items", func(t *testing.T) {
-		list := linked_list.NewLinkedList[int]()
+		list := llist.NewLinkedList[int]()
 		list.Push(3)
 		list.Push(4)
 		list.Unshift(2)

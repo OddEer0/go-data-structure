@@ -1,7 +1,7 @@
-package linked_list
+package list
 
-func (l *linkedList[T]) Push(item T) {
-	newNode := &node[T]{item, nil, nil}
+func (l *List[T]) Push(item T) {
+	newNode := &Node[T]{item, nil, nil}
 
 	if l.head == nil {
 		l.head = newNode
@@ -15,8 +15,8 @@ func (l *linkedList[T]) Push(item T) {
 	l.length++
 }
 
-func (l *linkedList[T]) Unshift(item T) {
-	newNode := &node[T]{item, nil, nil}
+func (l *List[T]) Unshift(item T) {
+	newNode := &Node[T]{item, nil, nil}
 
 	if l.head == nil {
 		l.head = newNode
@@ -30,7 +30,7 @@ func (l *linkedList[T]) Unshift(item T) {
 	l.length++
 }
 
-func (l *linkedList[T]) Pop() T {
+func (l *List[T]) Pop() T {
 	if l.head == nil {
 		var res T
 		return res
@@ -52,7 +52,7 @@ func (l *linkedList[T]) Pop() T {
 	return result
 }
 
-func (l *linkedList[T]) Shift() T {
+func (l *List[T]) Shift() T {
 	if l.head == nil {
 		var res T
 		return res
@@ -74,11 +74,11 @@ func (l *linkedList[T]) Shift() T {
 	return result
 }
 
-func (l *linkedList[T]) Size() int {
+func (l *List[T]) Size() int {
 	return l.length
 }
 
-func (l *linkedList[T]) Get(index int) T {
+func (l *List[T]) Get(index int) T {
 	if result := l.getNode(index); result != nil {
 		return result.value
 	}
@@ -86,7 +86,7 @@ func (l *linkedList[T]) Get(index int) T {
 	return res
 }
 
-func (l *linkedList[T]) Remove(index int) {
+func (l *List[T]) Remove(index int) {
 	if index < 0 || index >= l.length {
 		return
 	}
@@ -106,15 +106,15 @@ func (l *linkedList[T]) Remove(index int) {
 	}
 }
 
-func (l *linkedList[T]) Copy() *linkedList[T] {
-	newList := &linkedList[T]{}
-	l.ForEach(func(item T, _ int, _ *linkedList[T]) {
-		newList.Push(item)
+func (l *List[T]) Copy() IList[T] {
+	newList := NewLinkedList[T]()
+	l.ForEach(func(args Args[T]) {
+		newList.Push(args.Item)
 	})
 	return newList
 }
 
-func (l *linkedList[T]) Insert(index int, item T) {
+func (l *List[T]) Insert(index int, item T) {
 	if index > l.length || index < 0 {
 		return
 	}
@@ -124,7 +124,7 @@ func (l *linkedList[T]) Insert(index int, item T) {
 	} else if index == l.length {
 		l.Push(item)
 	} else {
-		newNode := &node[T]{item, nil, nil}
+		newNode := &Node[T]{item, nil, nil}
 		current := l.getNode(index - 1)
 		newNode.next = current.next
 		current.next.prev = newNode
@@ -134,6 +134,14 @@ func (l *linkedList[T]) Insert(index int, item T) {
 	}
 }
 
-func (l *linkedList[T]) Set(index int, item T) {
+func (l *List[T]) Set(index int, item T) {
 	l.getNode(index).value = item
+}
+
+func (l *List[T]) GetHeadNode() *Node[T] {
+	return l.head
+}
+
+func (l *List[T]) GetTailNode() *Node[T] {
+	return l.tail
 }

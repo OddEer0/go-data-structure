@@ -1,6 +1,6 @@
-package linked_list
+package list
 
-func (l *linkedList[T]) getNode(index int) *node[T] {
+func (l *List[T]) getNode(index int) *Node[T] {
 	if index >= l.length || index < 0 {
 		return nil
 	}
@@ -12,4 +12,8 @@ func (l *linkedList[T]) getNode(index int) *node[T] {
 	}
 
 	return node
+}
+
+func (l *List[T]) getHead() *Node[T] {
+	return l.head
 }
