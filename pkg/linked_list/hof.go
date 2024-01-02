@@ -8,6 +8,14 @@ func (l *linkedList[T]) ForEach(callback tCallback[T]) {
 	}
 }
 
+func (l *linkedList[T]) ForEachRight(callback tCallback[T]) {
+	current := l.tail
+	for i := l.length; i >= 0; i-- {
+		callback(current.value, i, l)
+		current = current.prev
+	}
+}
+
 func (l *linkedList[T]) Map(callback tCallbackR[T, T]) *linkedList[T] {
 	newList := l.Copy()
 	current := l.head
@@ -98,4 +106,20 @@ func (l *linkedList[T]) FindIndexLast(callback tCallbackR[T, bool]) int {
 		current = current.prev
 	}
 	return -1
+}
+
+func (l *linkedList[T]) Reduce(callback tCallbackReduce[T, interface{}], init interface{}) interface{} {
+	acc := init
+	l.ForEach(func(item T, index int, list *linkedList[T]) {
+		acc = callback(acc, item, index, list)
+	})
+	return acc
+}
+
+func (l *linkedList[T]) ReduceRight(callback tCallbackReduce[T, interface{}], init interface{}) interface{} {
+	acc := init
+	l.ForEachRight(func(item T, index int, list *linkedList[T]) {
+		acc = callback(acc, item, index, list)
+	})
+	return acc
 }

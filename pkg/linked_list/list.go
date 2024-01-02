@@ -1,8 +1,9 @@
 package linked_list
 
 type (
-	tCallback[T any]         func(T, int, *linkedList[T])
-	tCallbackR[T any, R any] func(T, int, *linkedList[T]) R
+	tCallback[T any]          func(T, int, *linkedList[T])
+	tCallbackR[T, R any]      func(T, int, *linkedList[T]) R
+	tCallbackReduce[T, K any] func(acc K, item T, index int, list *linkedList[T]) K
 
 	LinkedList[T any] interface {
 		Push(item T)              // O(1)
@@ -16,6 +17,7 @@ type (
 		Remove(index int)         // O(n)
 		Copy() *linkedList[T]     // O(n)
 		ForEach(callback tCallback[T])
+		ForEachRight(callback tCallback[T])
 		Map(callback tCallbackR[T, T]) *linkedList[T]
 		Some(callback tCallbackR[T, bool]) bool
 		Every(callback tCallbackR[T, bool]) bool
@@ -24,6 +26,8 @@ type (
 		FindLast(callback tCallbackR[T, bool]) T
 		FindIndex(callback tCallbackR[T, bool]) int
 		FindIndexLast(callback tCallbackR[T, bool]) int
+		Reduce(callback tCallbackReduce[T, interface{}], init interface{}) interface{}
+		ReduceRight(callback tCallbackReduce[T, interface{}], init interface{}) interface{}
 	}
 
 	node[T any] struct {
