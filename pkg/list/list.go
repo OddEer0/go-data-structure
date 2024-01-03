@@ -41,22 +41,23 @@ type (
 		FindIndexLast(callback tCallbackR[T, bool]) int
 		Reduce(callback tCallbackReduce[T, interface{}], init interface{}) interface{}
 		ReduceRight(callback tCallbackReduce[T, interface{}], init interface{}) interface{}
-		// IsEmpty
-		// Clear
-		// Has
-		// Search
-		// SearchLast
-		// IndexOf
-		// LastIndexOf
-		// Reverse
-		// ToReversed
-		// Concat
+		IsEmpty() bool
+		Clean()
+		Has(item T) bool
+		Search(item T) T
+		SearchLast(item T) T
+		IndexOf(item T) int
+		LastIndexOf(item T) int
+		Swap(first int, second int)
+		Reverse()
+		ToReversed() IList[T]
+		Concat(list IList[T]) IList[T]
+		Slice(start int, end int) IList[T]
+		As(index int) T
 		// Sort
 		// ToSorted
-		// Slice
 		// Splice
 		// ToSpliced
-		// As
 	}
 
 	Node[T any] struct {
