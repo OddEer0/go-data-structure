@@ -411,10 +411,94 @@ func TestLinkedListHofMethods(t *testing.T) {
 	})
 	// TODO - reduce tests
 	t.Run("Reduce method testing", func(t *testing.T) {
+		t.Run("Should correct callback arguments", func(t *testing.T) {
+			list := FirstMockList()
+			i := 0
+			list.Reduce(func(args llist.AccArgs[int, interface{}]) interface{} {
+				if args.Acc != 1 {
+					t.Errorf("incorrect accumulate value: %v, expected: %v", args.Acc, 1)
+				}
+				if args.Item != list.Get(i) {
+					t.Errorf("incorrect item: %v, expected %v", args.Item, list.Get(i))
+				}
+				if args.Index != i {
+					t.Errorf("incorrect index: %v, expected %v", args.Index, i)
+				}
+				if list != args.List {
+					t.Errorf("callback list not equal list")
+				}
+				i++
+				return args.Acc
+			}, 1)
+		})
 
+		t.Run("Should correct working", func(t *testing.T) {
+			list := FirstMockList()
+			cases := []struct {
+				maxIteration int
+				output       int
+			}{
+				{9, 45},
+				{5, 15},
+				{6, 21},
+			}
+			for _, item := range cases {
+				result := list.Reduce(func(args llist.AccArgs[int, interface{}]) interface{} {
+					if args.Index < item.maxIteration {
+						return args.Acc.(int) + args.Item
+					}
+					return args.Acc
+				}, 0)
+				if result != item.output {
+					t.Errorf("incorrect result: %v, expected %v", result, item.output)
+				}
+			}
+		})
 	})
 	// TODO - reduceRight tests
 	t.Run("ReduceRight method testing", func(t *testing.T) {
+		t.Run("Should correct callback arguments", func(t *testing.T) {
+			list := FirstMockList()
+			i := list.Size() - 1
+			list.ReduceRight(func(args llist.AccArgs[int, interface{}]) interface{} {
+				if args.Acc != 1 {
+					t.Errorf("incorrect accumulate value: %v, expected: %v", args.Acc, 1)
+				}
+				if args.Item != list.Get(i) {
+					t.Errorf("incorrect item: %v, expected %v", args.Item, list.Get(i))
+				}
+				if args.Index != i {
+					t.Errorf("incorrect index: %v, expected %v", args.Index, i)
+				}
+				if list != args.List {
+					t.Errorf("callback list not equal list")
+				}
+				i--
+				return args.Acc
+			}, 1)
+		})
 
+		t.Run("Should correct working", func(t *testing.T) {
+			list := FirstMockList()
+			cases := []struct {
+				maxIteration int
+				output       int
+			}{
+				{9, 45},
+				{5, 35},
+				{6, 39},
+			}
+			for _, item := range cases {
+				result := list.ReduceRight(func(args llist.AccArgs[int, interface{}]) interface{} {
+					if args.List.Size()-1-args.Index < item.maxIteration {
+						return args.Acc.(int) + args.Item
+					}
+					return args.Acc
+				}, 0)
+				if result != item.output {
+					t.Errorf("incorrect result: %v, expected %v", result, item.output)
+				}
+			}
+		})
 	})
 }
