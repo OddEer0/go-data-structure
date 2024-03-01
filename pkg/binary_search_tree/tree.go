@@ -22,9 +22,11 @@ type Tree[T Comparable, K any] struct {
 
 type ITree[T Comparable, K any] interface {
 	ChangeCmpFunc(fn func(a, b T) bool)
-	GetRoot() *Node[T, K]       // O(1)
-	GetSize() int               // O(1)s
-	Insert(key T, value K) bool // O(log(n))
+	GetRoot() *Node[T, K]                   // O(1)
+	GetSize() int                           // O(1)s
+	Insert(key T, value K) bool             // O(log(n))
+	Remove(key T)                           // O(log(n))
+	GetNodeByKey(key T) (*Node[T, K], bool) // O(log(n))
 
 	PreOrderFunc(callback func(*Node[T, K]))
 	InOrderFunc(callback func(*Node[T, K]))
