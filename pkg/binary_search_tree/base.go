@@ -1,7 +1,5 @@
 package binarysearchtree
 
-import "fmt"
-
 func (t *Tree[T, K]) GetRoot() *Node[T, K] {
 	return t.root
 }
@@ -89,8 +87,6 @@ func (t *Tree[T, K]) Remove(key T) {
 				t.length--
 			} else {
 				maxInLeft := node.left.GetMax()
-				fmt.Println("MAX IN LEFT:", maxInLeft)
-				fmt.Println("RIGHT:", maxInLeft.right)
 				node.key = maxInLeft.key
 				node.value = maxInLeft.value
 				node.left = reduceFn(node.left, maxInLeft.key)
@@ -124,4 +120,13 @@ func (t *Tree[T, K]) GetNodeByKey(key T) (*Node[T, K], bool) {
 	}
 
 	return reduceFn(t.root), ok
+}
+
+func (t *Tree[T, K]) Update(key T, value K) bool {
+	node, ok := t.GetNodeByKey(key)
+	if !ok {
+		return false
+	}
+	node.value = value
+	return true
 }
