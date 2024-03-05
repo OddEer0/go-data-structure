@@ -32,8 +32,8 @@ type ITree[T Comparable, K any] interface {
 	GetSize() int                      // O(1)s
 	Insert(key T, value K) *Node[T, K] // O(log(n))
 	// Remove(key T)                           // O(log(n))
-	// Update(key T, value K) bool             // O(log(n))
-	// GetNodeByKey(key T) (*Node[T, K], bool) // O(log(n))
+	Update(key T, value K) bool        // O(log(n))
+	GetNode(key T) (*Node[T, K], bool) // O(log(n))
 
 	PreOrderFunc(callback func(*Node[T, K]))
 	InOrderFunc(callback func(*Node[T, K]))
