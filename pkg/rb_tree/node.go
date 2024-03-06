@@ -40,16 +40,6 @@ func (n *Node[T, K]) isRightNode() bool {
 	return n == n.parent.right
 }
 
-func (n *Node[T, K]) getSwappedLeft() *Node[T, K] {
-	switch {
-	case n.NilNode():
-		return n
-	case n.right.NilNode():
-		return n
-	}
-	return n.right.getSwappedLeft()
-}
-
 func (n *Node[T, K]) getChildrenCount() int {
 	result := 0
 
