@@ -129,9 +129,9 @@ func (t *Tree[T, K]) balanceRemove(node *Node[T, K]) {
 			}
 			if brother.left.IsBlack() && brother.right.IsBlack() { // Случай I-2
 				brother.color = red
-				node = node.parent // Если родитель корень или красный цикл прервется и он покрасится в черный
+				node = node.parent // Если родитель корень или красный цикл прервется и он покрасится в черный или будет смотреть другие случаи для родителя
 			} else { // Случай I-1 I-3 I-4
-				if brother.left.IsRed() { // Случай I-4
+				if brother.right.IsBlack() { // Случай I-4
 					brother.left.color = black
 					brother.color = red
 					t.rightRotate(brother)
@@ -153,10 +153,10 @@ func (t *Tree[T, K]) balanceRemove(node *Node[T, K]) {
 				brother = node.parent.left
 			}
 			if brother.left.IsBlack() && brother.right.IsBlack() { // Случай I-2
-				t.rightRotate(node.parent)
-				brother = node.parent.left
+				brother.color = red
+				node = node.parent // Если родитель корень или красный цикл прервется и он покрасится в черный или будет смотреть другие случаи для родителя
 			} else { // Случай I-1 I-3 I-4
-				if brother.right.IsRed() { // Случай I-4
+				if brother.left.IsBlack() { // Случай I-4
 					brother.right.color = black
 					brother.color = red
 					t.leftRotate(brother)

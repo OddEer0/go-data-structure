@@ -73,8 +73,8 @@ func (n *Node[T, K]) getChildOrNil() *Node[T, K] {
 func (n *Node[T, K]) getMin() *Node[T, K] {
 	current := n
 	for current.NotNilNode() {
-		if n.left.NilNode() {
-			return n
+		if current.left.NilNode() {
+			return current
 		}
 		current = current.left
 	}

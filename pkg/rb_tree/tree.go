@@ -31,7 +31,7 @@ type ITree[T Comparable, K any] interface {
 	GetRoot() *Node[T, K]              // O(1)
 	GetSize() int                      // O(1)s
 	Insert(key T, value K) *Node[T, K] // O(log(n))
-	// Remove(key T)                           // O(log(n))
+	Remove(key T)                      // O(log(n))
 	Update(key T, value K) bool        // O(log(n))
 	GetNode(key T) (*Node[T, K], bool) // O(log(n))
 

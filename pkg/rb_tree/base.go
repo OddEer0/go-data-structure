@@ -92,4 +92,5 @@ func (t *Tree[T, K]) Remove(key T) {
 	if removedColor == black {
 		t.balanceRemove(child)
 	}
+	t.length--
 }
