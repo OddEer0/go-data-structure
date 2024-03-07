@@ -1,4 +1,4 @@
-package rbtree
+package redblacktree
 
 const (
 	black = true
@@ -9,8 +9,17 @@ func ShallowGreater[T Comparable](a, b T) bool {
 	return a > b
 }
 
+func ShallowLess[T Comparable](a, b T) bool {
+	return a < b
+}
+
 type Comparable interface {
 	int | string
+}
+
+type Entry[T Comparable, K any] struct {
+	key   T
+	value K
 }
 
 type Node[T Comparable, K any] struct {
@@ -20,44 +29,49 @@ type Node[T Comparable, K any] struct {
 	color               bool
 }
 
-type Tree[T Comparable, K any] struct {
+type RedBlackTree[T Comparable, K any] struct {
 	root   *Node[T, K]
 	length int
 	cmp    func(T, T) bool
 }
 
-type ITree[T Comparable, K any] interface {
-	ChangeCmpFunc(fn func(a, b T) bool)
-	GetRoot() *Node[T, K]              // O(1)
-	GetSize() int                      // O(1)s
+type Tree[T Comparable, K any] interface {
+	Root() *Node[T, K] // O(1)
+	Size() int         // O(1)s
+	Clear()
+	IsEmpty() bool
+
 	Insert(key T, value K) *Node[T, K] // O(log(n))
-	Remove(key T)                      // O(log(n))
+	Remove(key T) bool                 // O(log(n))
 	Update(key T, value K) bool        // O(log(n))
 	GetNode(key T) (*Node[T, K], bool) // O(log(n))
+	Get(key T) (K, bool)               // use GetNode
 
 	PreOrderFunc(callback func(*Node[T, K]))
 	InOrderFunc(callback func(*Node[T, K]))
 	PostOrderFunc(callback func(*Node[T, K]))
 
-	ToSortedSlice() []K
-	ToPreOrderNodeSlice() []K
-	ToPostOrderNodeSlice() []K
-}
-
-func NilNode[T Comparable, K any]() *Node[T, K] {
-	return &Node[T, K]{
-		left:   nil,
-		right:  nil,
-		parent: nil,
-		color:  black,
-	}
+	Values() []K
+	PreOrderValues() []K
+	PostOrderValues() []K
+	Keys() []T
+	PreOrderKeys() []T
+	PostOrderKeys() []T
+	Entries() []*Entry[T, K]
+	PreOrderEntries() []*Entry[T, K]
+	PostOrderEntries() []*Entry[T, K]
 }
 
 var instance interface{} = nil
 
 func nilNode[T Comparable, K any]() *Node[T, K] {
 	if instance == nil {
-		instance = NilNode[T, K]()
+		instance = &Node[T, K]{
+			left:   nil,
+			right:  nil,
+			parent: nil,
+			color:  black,
+		}
 	}
 	return instance.(*Node[T, K])
 }
@@ -73,10 +87,10 @@ func NewNode[T Comparable, K any](key T, value K) *Node[T, K] {
 	}
 }
 
-func NewRBTree[T Comparable, K any]() ITree[T, K] {
-	return &Tree[T, K]{
+func New[T Comparable, K any]() Tree[T, K] {
+	return &RedBlackTree[T, K]{
 		root:   nil,
 		length: 0,
-		cmp:    ShallowGreater[T],
+		cmp:    ShallowLess[T],
 	}
 }

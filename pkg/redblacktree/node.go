@@ -1,4 +1,4 @@
-package rbtree
+package redblacktree
 
 func (n *Node[T, K]) Value() K {
 	return n.value
@@ -58,15 +58,4 @@ func (n *Node[T, K]) getChildOrNil() *Node[T, K] {
 		return n.left
 	}
 	return n.right
-}
-
-func (n *Node[T, K]) getMin() *Node[T, K] {
-	current := n
-	for current.NotNilNode() {
-		if current.left.NilNode() {
-			return current
-		}
-		current = current.left
-	}
-	return n
 }

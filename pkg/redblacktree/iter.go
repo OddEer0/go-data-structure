@@ -1,6 +1,6 @@
-package rbtree
+package redblacktree
 
-func (t *Tree[T, K]) PreOrderFunc(callback func(*Node[T, K])) {
+func (t *RedBlackTree[T, K]) PreOrderFunc(callback func(*Node[T, K])) {
 	if t.root == nil {
 		return
 	}
@@ -15,7 +15,7 @@ func (t *Tree[T, K]) PreOrderFunc(callback func(*Node[T, K])) {
 	reduce(t.root)
 }
 
-func (t *Tree[T, K]) InOrderFunc(callback func(*Node[T, K])) {
+func (t *RedBlackTree[T, K]) InOrderFunc(callback func(*Node[T, K])) {
 	if t.root == nil {
 		return
 	}
@@ -30,7 +30,7 @@ func (t *Tree[T, K]) InOrderFunc(callback func(*Node[T, K])) {
 	reduce(t.root)
 }
 
-func (t *Tree[T, K]) PostOrderFunc(callback func(*Node[T, K])) {
+func (t *RedBlackTree[T, K]) PostOrderFunc(callback func(*Node[T, K])) {
 	if t.root == nil {
 		return
 	}

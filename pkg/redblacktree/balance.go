@@ -1,4 +1,4 @@
-package rbtree
+package redblacktree
 
 // Новый добавляемый элемент всегда является красным
 // При добавлений красного баланс может быть нарушен 5 раз
@@ -8,7 +8,7 @@ package rbtree
 // 4) Если родитель был красным и (Не надо)дядя черный. При этом новый элемент добавляется зигзагом(родитель слева от дяди, новый будет справа от родителя и наобарот): Делаем левый или правый поворот относительно родителя и переносим состояние в 5й случай
 // 5) Если родитель был красным и (Не надо)дядя черный. При этом новый элемент добавляется прямолинейно(родитель слева от дяди, новый будет слева от родителя и наобарот): Красим родителя в черный. Деда делаем красным и делаем правый или левый поворот относительно него
 
-func (t *Tree[T, K]) balanceInsert(newNode *Node[T, K]) {
+func (t *RedBlackTree[T, K]) balanceInsert(newNode *Node[T, K]) {
 	var uncle *Node[T, K]
 	for newNode.parent.IsRed() { // Убеждаемся что родитель красный
 		if newNode.parent.isLeftNode() { // Убеждаемся, что родитель находится с левой стороны от деда
@@ -56,7 +56,7 @@ func (t *Tree[T, K]) balanceInsert(newNode *Node[T, K]) {
 	t.root.color = black
 }
 
-func (t *Tree[T, K]) leftRotate(node *Node[T, K]) {
+func (t *RedBlackTree[T, K]) leftRotate(node *Node[T, K]) {
 	tmp := node.right
 	node.right = tmp.left
 	if node.right.NotNilNode() {
@@ -75,7 +75,7 @@ func (t *Tree[T, K]) leftRotate(node *Node[T, K]) {
 	node.parent = tmp
 }
 
-func (t *Tree[T, K]) rightRotate(node *Node[T, K]) {
+func (t *RedBlackTree[T, K]) rightRotate(node *Node[T, K]) {
 	tmp := node.left
 	node.left = tmp.right
 	if node.left.NotNilNode() {
@@ -94,7 +94,7 @@ func (t *Tree[T, K]) rightRotate(node *Node[T, K]) {
 	node.parent = tmp
 }
 
-func (t *Tree[T, K]) swapNode(to, from *Node[T, K]) {
+func (t *RedBlackTree[T, K]) swapNode(to, from *Node[T, K]) {
 	switch to {
 	case t.root:
 		t.root = from
@@ -116,7 +116,7 @@ func (t *Tree[T, K]) swapNode(to, from *Node[T, K]) {
 // 4) брат с черным  справа и красным слева: Брата красим в красный цвет а левого ребенка в черный правый поворот относительно брата. Таким образом мы приходим 1 или 3 случай и решаем так же
 // II) Если брат удаляемого узла был красным: Брата в черный родителя в красный левый или правый поворот относительно родителя
 
-func (t *Tree[T, K]) balanceRemove(node *Node[T, K]) {
+func (t *RedBlackTree[T, K]) balanceRemove(node *Node[T, K]) {
 	for node != t.root && node.IsBlack() {
 		var brother *Node[T, K]
 		if node.isLeftNode() { // Если узел слева от родителя
@@ -172,4 +172,35 @@ func (t *Tree[T, K]) balanceRemove(node *Node[T, K]) {
 		}
 	}
 	node.color = black
+}
+
+func (t *RedBlackTree[T, K]) getRightSwappedNode(node *Node[T, K]) *Node[T, K] {
+	current := node
+	for current.NotNilNode() {
+		switch current.getChildrenCount() {
+		case 0:
+			return current
+		case 2:
+			if t.cmp(current.left.key, current.key) {
+				current = current.left
+			} else {
+				current = current.right
+			}
+		default:
+			if current.right.NilNode() {
+				if t.cmp(current.left.key, current.key) {
+					current = current.left
+				} else {
+					return current
+				}
+			} else {
+				if t.cmp(current.right.key, current.key) {
+					current = current.left
+				} else {
+					return current
+				}
+			}
+		}
+	}
+	return node
 }
