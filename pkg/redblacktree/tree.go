@@ -94,3 +94,11 @@ func New[T Comparable, K any]() Tree[T, K] {
 		cmp:    ShallowLess[T],
 	}
 }
+
+func NewWithCompare[T Comparable, K any](fn func(a, b T) bool) Tree[T, K] {
+	return &RedBlackTree[T, K]{
+		root:   nil,
+		length: 0,
+		cmp:    ShallowLess[T],
+	}
+}
