@@ -229,6 +229,52 @@ func TestNodeBaseMethods(t *testing.T) {
 		}
 	})
 
+	t.Run("Should correct get", func(t *testing.T) {
+		tc := []struct {
+			key   int
+			val   int
+			found bool
+		}{
+			{1000, 1000, true},
+			{700, 700, true},
+			{10000, 10000, false},
+		}
+
+		tree := initTree()
+
+		for _, c := range tc {
+			value, ok := tree.Get(c.key)
+			if ok {
+				assert.Equal(t, c.val, value)
+			}
+			assert.Equal(t, ok, c.found)
+		}
+	})
+
+	t.Run("Should correct update", func(t *testing.T) {
+		tc := []struct {
+			key       int
+			val       int
+			isSuccess bool
+		}{
+			{1050, 2000, true},
+			{960, 2500, true},
+			{1200, 2200, true},
+			{10000, 2000, false},
+		}
+
+		tree := initTree()
+
+		for _, c := range tc {
+			ok := tree.Update(c.key, c.val)
+			if ok {
+				val, _ := tree.Get(c.key)
+				assert.Equal(t, val, c.val)
+			}
+			assert.Equal(t, c.isSuccess, ok)
+		}
+	})
+
 	t.Run("Should correct remove and balance element", func(t *testing.T) {
 		tree := initTree2()
 		tree.Remove(1250)
@@ -340,5 +386,23 @@ func TestNodeBaseMethods(t *testing.T) {
 		assert.Equal(t, tree.Root().Right().Left().IsBlack(), true)
 		assert.Equal(t, tree.Root().Right().Right().IsBlack(), true)
 		assert.Equal(t, tree.Root().Right().Right().Right().IsRed(), true)
+	})
+
+	t.Run("Getter and Setter", func(t *testing.T) {
+		tree := initTree2()
+		assert.Equal(t, tree.Root().Value(), 1050)
+		assert.Equal(t, tree.Size(), 13)
+	})
+
+	t.Run("Should clear and is empty correct working", func(t *testing.T) {
+		tree := initTree2()
+		assert.Equal(t, tree.Root().Value(), 1050)
+		assert.Equal(t, tree.Size(), 13)
+		assert.Equal(t, tree.IsEmpty(), false)
+
+		tree.Clear()
+		assert.Equal(t, tree.IsEmpty(), true)
+		assert.Equal(t, tree.Size(), 0)
+		assert.Nil(t, tree.Root())
 	})
 }

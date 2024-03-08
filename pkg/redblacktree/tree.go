@@ -1,9 +1,11 @@
 package redblacktree
 
 const (
-	black = true
-	red   = false
+	black, red                    = true, false
+	start, proccess, end position = 0, 1, 2
 )
+
+type position byte
 
 func ShallowGreater[T Comparable](a, b T) bool {
 	return a > b
@@ -29,6 +31,12 @@ type Node[T Comparable, K any] struct {
 	color               bool
 }
 
+type Iterator[T Comparable, K any] struct {
+	tree *RedBlackTree[T, K]
+	node *Node[T, K]
+	position
+}
+
 type RedBlackTree[T Comparable, K any] struct {
 	root   *Node[T, K]
 	length int
@@ -46,6 +54,8 @@ type Tree[T Comparable, K any] interface {
 	Update(key T, value K) bool        // O(log(n))
 	GetNode(key T) (*Node[T, K], bool) // O(log(n))
 	Get(key T) (K, bool)               // use GetNode
+
+	// TODO - add test cases
 	InsertOrUpdate(key T, value K)
 	InsertMany(entries ...Entry[T, K])
 	InsertOrUpdateMany(entries ...Entry[T, K])
@@ -55,8 +65,10 @@ type Tree[T Comparable, K any] interface {
 	InOrderFunc(callback func(*Node[T, K]))
 	PostOrderFunc(callback func(*Node[T, K]))
 
-	// Iterator
+	// TODO - add test cases
+	Iterator() *Iterator[T, K]
 
+	// TODO - add test cases
 	Values() []K
 	PreOrderValues() []K
 	PostOrderValues() []K

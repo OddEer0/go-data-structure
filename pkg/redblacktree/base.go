@@ -10,6 +10,7 @@ func (t *RedBlackTree[T, K]) Size() int {
 
 func (t *RedBlackTree[T, K]) Clear() {
 	t.root = nil
+	t.length = 0
 }
 
 func (t *RedBlackTree[T, K]) IsEmpty() bool {
@@ -34,7 +35,11 @@ func (t *RedBlackTree[T, K]) GetNode(key T) (*Node[T, K], bool) {
 
 func (t *RedBlackTree[T, K]) Get(key T) (K, bool) {
 	node, ok := t.GetNode(key)
-	return node.value, ok
+	if ok {
+		return node.value, true
+	}
+	var val K
+	return val, false
 }
 
 func (t *RedBlackTree[T, K]) Update(key T, value K) bool {
@@ -131,4 +136,26 @@ func (t *RedBlackTree[T, K]) RemoveMany(keys ...T) {
 	for _, key := range keys {
 		t.Remove(key)
 	}
+}
+
+func (t *RedBlackTree[T, K]) Left() *Node[T, K] {
+	if t.length == 0 {
+		return nil
+	}
+	current := t.root
+	for current.left.NotNilNode() {
+		current = current.left
+	}
+	return current
+}
+
+func (t *RedBlackTree[T, K]) Right() *Node[T, K] {
+	if t.length == 0 {
+		return nil
+	}
+	current := t.root
+	for current.right.NotNilNode() {
+		current = current.right
+	}
+	return current
 }
