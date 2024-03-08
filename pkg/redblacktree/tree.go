@@ -67,7 +67,6 @@ type Tree[T Comparable, K any] interface {
 	// TODO - add test cases
 	Iterator() *Iterator[T, K]
 
-	// TODO - add test cases
 	Values() []K
 	PreOrderValues() []K
 	PostOrderValues() []K
@@ -112,6 +111,7 @@ func New[T Comparable, K any]() Tree[T, K] {
 	}
 }
 
+// TODO - test
 func NewWith[T Comparable, K any](fn func(a, b T) bool) Tree[T, K] {
 	return &RedBlackTree[T, K]{
 		root:   nil,

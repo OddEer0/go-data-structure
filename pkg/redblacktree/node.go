@@ -1,5 +1,9 @@
 package redblacktree
 
+func (n *Node[T, K]) Key() T {
+	return n.key
+}
+
 func (n *Node[T, K]) Value() K {
 	return n.value
 }
