@@ -46,9 +46,10 @@ type Tree[T Comparable, K any] interface {
 	Update(key T, value K) bool        // O(log(n))
 	GetNode(key T) (*Node[T, K], bool) // O(log(n))
 	Get(key T) (K, bool)               // use GetNode
-	// InsertOrUpdate
-	// InsertMany
-	// RemoveMany
+	InsertOrUpdate(key T, value K)
+	InsertMany(entries ...Entry[T, K])
+	InsertOrUpdateMany(entries ...Entry[T, K])
+	RemoveMany(keys ...T)
 
 	PreOrderFunc(callback func(*Node[T, K]))
 	InOrderFunc(callback func(*Node[T, K]))

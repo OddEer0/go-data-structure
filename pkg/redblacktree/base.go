@@ -78,6 +78,28 @@ func (t *RedBlackTree[T, K]) Insert(key T, value K) *Node[T, K] {
 	return nil
 }
 
+func (t *RedBlackTree[T, K]) InsertOrUpdate(key T, value K) {
+	node := t.Insert(key, value)
+	if node != nil {
+		node.value = value
+	}
+}
+
+func (t *RedBlackTree[T, K]) InsertMany(entries ...Entry[T, K]) {
+	for _, entry := range entries {
+		t.Insert(entry.key, entry.value)
+	}
+}
+
+func (t *RedBlackTree[T, K]) InsertOrUpdateMany(entries ...Entry[T, K]) {
+	for _, entry := range entries {
+		node := t.Insert(entry.key, entry.value)
+		if node != nil {
+			node.value = entry.value
+		}
+	}
+}
+
 func (t *RedBlackTree[T, K]) Remove(key T) bool {
 	deletedNode, ok := t.GetNode(key)
 	if !ok {
@@ -103,4 +125,10 @@ func (t *RedBlackTree[T, K]) Remove(key T) bool {
 	}
 	t.length--
 	return true
+}
+
+func (t *RedBlackTree[T, K]) RemoveMany(keys ...T) {
+	for _, key := range keys {
+		t.Remove(key)
+	}
 }
