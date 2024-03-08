@@ -45,37 +45,37 @@ type RedBlackTree[T Comparable, K any] struct {
 
 type Tree[T Comparable, K any] interface {
 	Root() *Node[T, K] // O(1)
-	Size() int         // O(1)s
-	Clear()
-	IsEmpty() bool
+	Size() int         // O(1)
+	Clear()            // O(1)
+	IsEmpty() bool     // O(1)
 
 	Insert(key T, value K) *Node[T, K] // O(log(n))
 	Remove(key T) bool                 // O(log(n))
 	Update(key T, value K) bool        // O(log(n))
 	GetNode(key T) (*Node[T, K], bool) // O(log(n))
-	Get(key T) (K, bool)               // use GetNode
+	Get(key T) (K, bool)               // O(log(n))
 
-	InsertOrUpdate(key T, value K)
-	InsertMany(entries ...*Entry[T, K])
-	InsertOrUpdateMany(entries ...*Entry[T, K])
-	RemoveMany(keys ...T)
+	InsertOrUpdate(key T, value K)              // O(log(n))
+	InsertMany(entries ...*Entry[T, K])         // O(n * log(k)) k - size
+	InsertOrUpdateMany(entries ...*Entry[T, K]) // O(n * log(k)) k - size
+	RemoveMany(keys ...T)                       // O(n * log(k)) k - size
 
-	PreOrderFunc(callback func(*Node[T, K]))
-	InOrderFunc(callback func(*Node[T, K]))
-	PostOrderFunc(callback func(*Node[T, K]))
+	PreOrderFunc(callback func(*Node[T, K]))  // recoursive
+	InOrderFunc(callback func(*Node[T, K]))   // recoursive
+	PostOrderFunc(callback func(*Node[T, K])) // recoursive
 
 	// TODO - add test cases
 	Iterator() *Iterator[T, K]
 
-	Values() []K
-	PreOrderValues() []K
-	PostOrderValues() []K
-	Keys() []T
-	PreOrderKeys() []T
-	PostOrderKeys() []T
-	Entries() []*Entry[T, K]
-	PreOrderEntries() []*Entry[T, K]
-	PostOrderEntries() []*Entry[T, K]
+	Values() []K                      // recoursive
+	PreOrderValues() []K              // recoursive
+	PostOrderValues() []K             // recoursive
+	Keys() []T                        // recoursive
+	PreOrderKeys() []T                // recoursive
+	PostOrderKeys() []T               // recoursive
+	Entries() []*Entry[T, K]          // recoursive
+	PreOrderEntries() []*Entry[T, K]  // recoursive
+	PostOrderEntries() []*Entry[T, K] // recoursive
 }
 
 var instance interface{} = nil
