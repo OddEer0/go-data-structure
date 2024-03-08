@@ -46,10 +46,15 @@ type Tree[T Comparable, K any] interface {
 	Update(key T, value K) bool        // O(log(n))
 	GetNode(key T) (*Node[T, K], bool) // O(log(n))
 	Get(key T) (K, bool)               // use GetNode
+	// InsertOrUpdate
+	// InsertMany
+	// RemoveMany
 
 	PreOrderFunc(callback func(*Node[T, K]))
 	InOrderFunc(callback func(*Node[T, K]))
 	PostOrderFunc(callback func(*Node[T, K]))
+
+	// Iterator
 
 	Values() []K
 	PreOrderValues() []K
@@ -95,7 +100,7 @@ func New[T Comparable, K any]() Tree[T, K] {
 	}
 }
 
-func NewWithCompare[T Comparable, K any](fn func(a, b T) bool) Tree[T, K] {
+func NewWith[T Comparable, K any](fn func(a, b T) bool) Tree[T, K] {
 	return &RedBlackTree[T, K]{
 		root:   nil,
 		length: 0,
