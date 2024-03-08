@@ -20,8 +20,8 @@ type Comparable interface {
 }
 
 type Entry[T Comparable, K any] struct {
-	key   T
-	value K
+	Key   T
+	Value K
 }
 
 type Node[T Comparable, K any] struct {
@@ -55,10 +55,9 @@ type Tree[T Comparable, K any] interface {
 	GetNode(key T) (*Node[T, K], bool) // O(log(n))
 	Get(key T) (K, bool)               // use GetNode
 
-	// TODO - add test cases
 	InsertOrUpdate(key T, value K)
-	InsertMany(entries ...Entry[T, K])
-	InsertOrUpdateMany(entries ...Entry[T, K])
+	InsertMany(entries ...*Entry[T, K])
+	InsertOrUpdateMany(entries ...*Entry[T, K])
 	RemoveMany(keys ...T)
 
 	PreOrderFunc(callback func(*Node[T, K]))

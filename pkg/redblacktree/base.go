@@ -90,17 +90,17 @@ func (t *RedBlackTree[T, K]) InsertOrUpdate(key T, value K) {
 	}
 }
 
-func (t *RedBlackTree[T, K]) InsertMany(entries ...Entry[T, K]) {
+func (t *RedBlackTree[T, K]) InsertMany(entries ...*Entry[T, K]) {
 	for _, entry := range entries {
-		t.Insert(entry.key, entry.value)
+		t.Insert(entry.Key, entry.Value)
 	}
 }
 
-func (t *RedBlackTree[T, K]) InsertOrUpdateMany(entries ...Entry[T, K]) {
+func (t *RedBlackTree[T, K]) InsertOrUpdateMany(entries ...*Entry[T, K]) {
 	for _, entry := range entries {
-		node := t.Insert(entry.key, entry.value)
+		node := t.Insert(entry.Key, entry.Value)
 		if node != nil {
-			node.value = entry.value
+			node.value = entry.Value
 		}
 	}
 }

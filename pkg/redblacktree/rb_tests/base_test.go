@@ -33,7 +33,7 @@ func initTree2() redblacktree.Tree[int, int] {
 	return tree
 }
 
-func TestNodeBaseMethods(t *testing.T) {
+func TestBaseMethods(t *testing.T) {
 	t.Run("Should correct insert and balance tree", func(t *testing.T) {
 		tree := redblacktree.New[int, int]()
 		tree2 := redblacktree.New[int, int]()
