@@ -9,28 +9,6 @@ const (
 
 type position byte
 
-func ShallowGreater[T cmp.Ordered](a, b T) int {
-	switch {
-	case a == b:
-		return 0
-	case a > b:
-		return -1
-	default:
-		return 1
-	}
-}
-
-func ShallowLess[T cmp.Ordered](a, b T) int {
-	switch {
-	case a == b:
-		return 0
-	case a < b:
-		return -1
-	default:
-		return 1
-	}
-}
-
 type Entry[T any, K any] struct {
 	Key   T
 	Value K
@@ -119,7 +97,7 @@ func New[T cmp.Ordered, K any]() Tree[T, K] {
 	return &RedBlackTree[T, K]{
 		root:   nil,
 		length: 0,
-		cmp:    ShallowLess[T],
+		cmp:    cmp.Compare[T],
 	}
 }
 
