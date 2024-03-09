@@ -4,7 +4,7 @@ func (t *RedBlackTree[T, K]) Iterator() *Iterator[T, K] {
 	return &Iterator[T, K]{t, nil, start}
 }
 
-func (i Iterator[T, K]) Next() bool {
+func (i *Iterator[T, K]) Next() bool {
 	switch i.position {
 	case end:
 		return false
@@ -37,7 +37,7 @@ func (i Iterator[T, K]) Next() bool {
 	}
 }
 
-func (i Iterator[T, K]) Prev() bool {
+func (i *Iterator[T, K]) Prev() bool {
 	switch i.position {
 	case start:
 		return false
@@ -65,39 +65,39 @@ func (i Iterator[T, K]) Prev() bool {
 		}
 
 		i.node = nil
-		i.position = end
+		i.position = start
 		return false
 	}
 }
 
-func (i Iterator[T, K]) Value() K {
+func (i *Iterator[T, K]) Value() K {
 	return i.node.value
 }
 
-func (i Iterator[T, K]) Key() T {
+func (i *Iterator[T, K]) Key() T {
 	return i.node.key
 }
 
-func (i Iterator[T, K]) Node() *Node[T, K] {
+func (i *Iterator[T, K]) Node() *Node[T, K] {
 	return i.node
 }
 
-func (i Iterator[T, K]) Start() {
+func (i *Iterator[T, K]) Start() {
 	i.node = nil
 	i.position = start
 }
 
-func (i Iterator[T, K]) End() {
+func (i *Iterator[T, K]) End() {
 	i.node = nil
 	i.position = end
 }
 
-func (i Iterator[T, K]) First() bool {
+func (i *Iterator[T, K]) First() bool {
 	i.Start()
 	return i.Next()
 }
 
-func (i Iterator[T, K]) Last() bool {
+func (i *Iterator[T, K]) Last() bool {
 	i.End()
 	return i.Prev()
 }

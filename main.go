@@ -32,7 +32,14 @@ func printRedBlackTree(root *redblacktree.Node[int, int], indent string, last bo
 }
 
 func main() {
-	tree := redblacktree.New[int, int]()
+	tree := redblacktree.NewWith[int, int](func(a, b int) int {
+		if a == b {
+			return 0
+		} else if a > b {
+			return -1
+		}
+		return 1
+	})
 
 	for i := 0; i < 700; i++ {
 		tree.Insert(i+1, i+1)
@@ -51,6 +58,10 @@ func main() {
 
 	for i := 200; i < 270; i++ {
 		tree.Remove(i + 1)
+	}
+
+	for i := -100; i < 0; i++ {
+		tree.Insert(i+1, i+1)
 	}
 
 	printRedBlackTree(tree.Root(), "", true)

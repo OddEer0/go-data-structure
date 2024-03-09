@@ -54,7 +54,6 @@ type Tree[T any, K any] interface {
 	InOrderFunc(callback func(*Node[T, K]))   // recursive
 	PostOrderFunc(callback func(*Node[T, K])) // recursive
 
-	// TODO - add test cases
 	Iterator() *Iterator[T, K]
 
 	Values() []K                      // recursive
@@ -66,6 +65,9 @@ type Tree[T any, K any] interface {
 	Entries() []*Entry[T, K]          // recursive
 	PreOrderEntries() []*Entry[T, K]  // recursive
 	PostOrderEntries() []*Entry[T, K] // recursive
+
+	Right() *Node[T, K]
+	Left() *Node[T, K]
 }
 
 var instance interface{} = nil

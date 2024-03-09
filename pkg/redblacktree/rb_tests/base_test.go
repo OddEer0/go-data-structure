@@ -205,6 +205,16 @@ func TestBaseMethods(t *testing.T) {
 		assert.Equal(t, tree.Root().Right().Right().Left().IsRed(), true)
 	})
 
+	t.Run("Should correct left right working", func(t *testing.T) {
+		tree := initTree()
+		assert.Equal(t, 700, tree.Left().Value())
+		assert.Equal(t, 1250, tree.Right().Value())
+
+		tree = redblacktree.New[int, int]()
+		assert.Nil(t, tree.Left())
+		assert.Nil(t, tree.Right())
+	})
+
 	t.Run("Should correct get node", func(t *testing.T) {
 		tc := []struct {
 			key   int
