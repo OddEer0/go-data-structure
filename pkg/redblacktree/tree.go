@@ -50,22 +50,22 @@ type Tree[T any, K any] interface {
 	InsertOrUpdateMany(entries ...*Entry[T, K]) // O(n * log(k)) k - size
 	RemoveMany(keys ...T)                       // O(n * log(k)) k - size
 
-	PreOrderFunc(callback func(*Node[T, K]))  // recoursive
-	InOrderFunc(callback func(*Node[T, K]))   // recoursive
-	PostOrderFunc(callback func(*Node[T, K])) // recoursive
+	PreOrderFunc(callback func(*Node[T, K]))  // recursive
+	InOrderFunc(callback func(*Node[T, K]))   // recursive
+	PostOrderFunc(callback func(*Node[T, K])) // recursive
 
 	// TODO - add test cases
 	Iterator() *Iterator[T, K]
 
-	Values() []K                      // recoursive
-	PreOrderValues() []K              // recoursive
-	PostOrderValues() []K             // recoursive
-	Keys() []T                        // recoursive
-	PreOrderKeys() []T                // recoursive
-	PostOrderKeys() []T               // recoursive
-	Entries() []*Entry[T, K]          // recoursive
-	PreOrderEntries() []*Entry[T, K]  // recoursive
-	PostOrderEntries() []*Entry[T, K] // recoursive
+	Values() []K                      // recursive
+	PreOrderValues() []K              // recursive
+	PostOrderValues() []K             // recursive
+	Keys() []T                        // recursive
+	PreOrderKeys() []T                // recursive
+	PostOrderKeys() []T               // recursive
+	Entries() []*Entry[T, K]          // recursive
+	PreOrderEntries() []*Entry[T, K]  // recursive
+	PostOrderEntries() []*Entry[T, K] // recursive
 }
 
 var instance interface{} = nil
