@@ -1,5 +1,7 @@
 package redblacktree
 
+import "cmp"
+
 const (
 	black, red                    = true, false
 	start, proccess, end position = 0, 1, 2
@@ -7,43 +9,53 @@ const (
 
 type position byte
 
-func ShallowGreater[T Comparable](a, b T) bool {
-	return a > b
+func ShallowGreater[T cmp.Ordered](a, b T) int {
+	switch {
+	case a == b:
+		return 0
+	case a > b:
+		return -1
+	default:
+		return 1
+	}
 }
 
-func ShallowLess[T Comparable](a, b T) bool {
-	return a < b
+func ShallowLess[T cmp.Ordered](a, b T) int {
+	switch {
+	case a == b:
+		return 0
+	case a < b:
+		return -1
+	default:
+		return 1
+	}
 }
 
-type Comparable interface {
-	int | string
-}
-
-type Entry[T Comparable, K any] struct {
+type Entry[T any, K any] struct {
 	Key   T
 	Value K
 }
 
-type Node[T Comparable, K any] struct {
+type Node[T any, K any] struct {
 	key                 T
 	value               K
 	left, right, parent *Node[T, K]
 	color               bool
 }
 
-type Iterator[T Comparable, K any] struct {
+type Iterator[T any, K any] struct {
 	tree *RedBlackTree[T, K]
 	node *Node[T, K]
 	position
 }
 
-type RedBlackTree[T Comparable, K any] struct {
+type RedBlackTree[T any, K any] struct {
 	root   *Node[T, K]
 	length int
-	cmp    func(T, T) bool
+	cmp    func(T, T) int
 }
 
-type Tree[T Comparable, K any] interface {
+type Tree[T any, K any] interface {
 	Root() *Node[T, K] // O(1)
 	Size() int         // O(1)
 	Clear()            // O(1)
@@ -80,7 +92,7 @@ type Tree[T Comparable, K any] interface {
 
 var instance interface{} = nil
 
-func nilNode[T Comparable, K any]() *Node[T, K] {
+func nilNode[T any, K any]() *Node[T, K] {
 	if instance == nil {
 		instance = &Node[T, K]{
 			left:   nil,
@@ -92,7 +104,7 @@ func nilNode[T Comparable, K any]() *Node[T, K] {
 	return instance.(*Node[T, K])
 }
 
-func NewNode[T Comparable, K any](key T, value K) *Node[T, K] {
+func NewNode[T any, K any](key T, value K) *Node[T, K] {
 	return &Node[T, K]{
 		key,
 		value,
@@ -103,7 +115,7 @@ func NewNode[T Comparable, K any](key T, value K) *Node[T, K] {
 	}
 }
 
-func New[T Comparable, K any]() Tree[T, K] {
+func New[T cmp.Ordered, K any]() Tree[T, K] {
 	return &RedBlackTree[T, K]{
 		root:   nil,
 		length: 0,
@@ -111,11 +123,10 @@ func New[T Comparable, K any]() Tree[T, K] {
 	}
 }
 
-// TODO - test
-func NewWith[T Comparable, K any](fn func(a, b T) bool) Tree[T, K] {
+func NewWith[T any, K any](fn func(a, b T) int) Tree[T, K] {
 	return &RedBlackTree[T, K]{
 		root:   nil,
 		length: 0,
-		cmp:    ShallowLess[T],
+		cmp:    fn,
 	}
 }

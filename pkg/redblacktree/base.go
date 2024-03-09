@@ -20,10 +20,11 @@ func (t *RedBlackTree[T, K]) IsEmpty() bool {
 func (t *RedBlackTree[T, K]) GetNode(key T) (*Node[T, K], bool) {
 	current := t.root
 	for current.NotNilNode() && current != nil {
+		cmpV := t.cmp(key, current.key)
 		switch {
-		case key == current.key:
+		case cmpV == 0:
 			return current, true
-		case t.cmp(key, current.key):
+		case cmpV < 0:
 			current = current.left
 		default:
 			current = current.right
@@ -56,10 +57,11 @@ func (t *RedBlackTree[T, K]) Insert(key T, value K) *Node[T, K] {
 	parent := nilNode[T, K]()
 	for current.NotNilNode() && current != nil {
 		parent = current
+		cmpV := t.cmp(key, current.key)
 		switch {
-		case key == current.key:
+		case cmpV == 0:
 			return current
-		case t.cmp(key, current.key):
+		case cmpV < 0:
 			current = current.left
 		default:
 			current = current.right
@@ -72,7 +74,7 @@ func (t *RedBlackTree[T, K]) Insert(key T, value K) *Node[T, K] {
 	switch {
 	case !parent.NotNilNode():
 		t.root = newNode
-	case t.cmp(key, parent.key):
+	case t.cmp(key, parent.key) < 0:
 		parent.left = newNode
 	default:
 		parent.right = newNode

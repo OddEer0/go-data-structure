@@ -181,20 +181,20 @@ func (t *RedBlackTree[T, K]) getRightSwappedNode(node *Node[T, K]) *Node[T, K] {
 		case 0:
 			return current
 		case 2:
-			if t.cmp(current.left.key, current.key) {
+			if t.cmp(current.left.key, current.key) < 0 {
 				current = current.left
 			} else {
 				current = current.right
 			}
 		default:
 			if current.right.NilNode() {
-				if t.cmp(current.left.key, current.key) {
+				if t.cmp(current.left.key, current.key) < 0 {
 					current = current.left
 				} else {
 					return current
 				}
 			} else {
-				if t.cmp(current.right.key, current.key) {
+				if t.cmp(current.right.key, current.key) < 0 {
 					current = current.left
 				} else {
 					return current
