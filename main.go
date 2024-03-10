@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/OddEer0/go-data-structure/pkg/redblacktree"
+	"github.com/OddEer0/go-data-structure/redblacktree"
 )
 
 func printRedBlackTree(root *redblacktree.Node[int, int], indent string, last bool) {
