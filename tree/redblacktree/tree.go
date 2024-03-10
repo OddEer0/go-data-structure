@@ -103,10 +103,10 @@ func New[T cmp.Ordered, K any]() Tree[T, K] {
 	}
 }
 
-func NewWith[T any, K any](fn func(a, b T) int) Tree[T, K] {
+func NewWith[T any, K any](comparator func(a, b T) int) Tree[T, K] {
 	return &RedBlackTree[T, K]{
 		root:   nil,
 		length: 0,
-		cmp:    fn,
+		cmp:    comparator,
 	}
 }
