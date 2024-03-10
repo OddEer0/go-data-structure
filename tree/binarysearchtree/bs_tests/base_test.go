@@ -3,7 +3,7 @@ package bstests
 import (
 	"testing"
 
-	binarysearchtree "github.com/OddEer0/go-data-structure/pkg/binary_search_tree"
+	binarysearchtree "github.com/OddEer0/go-data-structure/tree/binarysearchtree"
 	"github.com/stretchr/testify/assert"
 )
 

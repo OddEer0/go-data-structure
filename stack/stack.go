@@ -1,6 +1,6 @@
 package stack
 
-import "github.com/OddEer0/go-data-structure/pkg/list"
+import "github.com/OddEer0/go-data-structure/list"
 
 type IStack[T any] interface {
 	Peek() T

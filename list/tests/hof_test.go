@@ -1,8 +1,9 @@
 package tests
 
 import (
-	llist "github.com/OddEer0/go-data-structure/pkg/list"
 	"testing"
+
+	llist "github.com/OddEer0/go-data-structure/list"
 )
 
 func TestLinkedListHofMethods(t *testing.T) {

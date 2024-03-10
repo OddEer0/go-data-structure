@@ -1,6 +1,6 @@
 package queue
 
-import "github.com/OddEer0/go-data-structure/pkg/list"
+import "github.com/OddEer0/go-data-structure/list"
 
 type IQueue[T any] interface {
 	PeekFirst() T

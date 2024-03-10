@@ -4,7 +4,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/OddEer0/go-data-structure/pkg/redblacktree"
+	"github.com/OddEer0/go-data-structure/tree/redblacktree"
 	"github.com/stretchr/testify/assert"
 )
 
