@@ -1,10 +1,10 @@
 package avltree
 
-func (t *Tree[T, K]) GetRoot() *Node[T, K] {
+func (t *AvlTree[T, K]) Root() *Node[T, K] {
 	return t.root
 }
 
-func (t *Tree[T, K]) GetSize() int {
+func (t *AvlTree[T, K]) Size() int {
 	return t.length
 }
 
@@ -30,34 +30,31 @@ func (n *Node[T, K]) GetMax() *Node[T, K] {
 	return n.right.GetMax()
 }
 
-func (t *Tree[T, K]) ChangeCmpFunc(fn func(a, b T) bool) {
-	t.cmp = fn
-}
-
-func (t *Tree[T, K]) Insert(key T, value K) bool {
+func (t *AvlTree[T, K]) Insert(key T, value K) *Node[T, K] {
 	if t.root == nil {
 		t.root = &Node[T, K]{key, value, nil, nil, 0}
 		t.length++
-		return true
+		return nil
 	}
 
-	var reduceFn func(*Node[T, K]) bool
-	reduceFn = func(node *Node[T, K]) bool {
-		res := true
+	var reduceFn func(*Node[T, K]) *Node[T, K]
+	reduceFn = func(node *Node[T, K]) *Node[T, K] {
+		var res *Node[T, K] = nil
+		cmpValue := t.cmp(key, node.key)
 		switch {
-		case key == node.key:
-			res = false
-		case t.cmp(key, node.key):
-			if node.right == nil {
-				node.right = &Node[T, K]{key, value, nil, nil, 0}
-			} else {
-				reduceFn(node.right)
-			}
-		default:
+		case cmpValue == 0:
+			res = node
+		case cmpValue < 0:
 			if node.left == nil {
 				node.left = &Node[T, K]{key, value, nil, nil, 0}
 			} else {
-				reduceFn(node.left)
+				res = reduceFn(node.left)
+			}
+		default:
+			if node.right == nil {
+				node.right = &Node[T, K]{key, value, nil, nil, 0}
+			} else {
+				res = reduceFn(node.right)
 			}
 		}
 		node.updateHeight()
@@ -65,36 +62,38 @@ func (t *Tree[T, K]) Insert(key T, value K) bool {
 		return res
 	}
 
-	ok := reduceFn(t.root)
-	if ok {
+	node := reduceFn(t.root)
+	if node == nil {
 		t.length++
 	}
-	return ok
+	return node
 }
 
-func (t *Tree[T, K]) GetNodeByKey(key T) (*Node[T, K], bool) {
+func (t *AvlTree[T, K]) GetNode(key T) (*Node[T, K], bool) {
 	var reduceFn func(*Node[T, K]) *Node[T, K]
 	ok := false
 
 	reduceFn = func(node *Node[T, K]) *Node[T, K] {
-		switch {
-		case node == nil:
+		if node == nil {
 			return nil
-		case node.key == key:
+		}
+		cmpValue := t.cmp(key, node.key)
+		switch {
+		case cmpValue == 0:
 			ok = true
 			return node
-		case t.cmp(key, node.key):
-			return reduceFn(node.right)
-		default:
+		case cmpValue < 0:
 			return reduceFn(node.left)
+		default:
+			return reduceFn(node.right)
 		}
 	}
 
 	return reduceFn(t.root), ok
 }
 
-func (t *Tree[T, K]) Update(key T, value K) bool {
-	node, ok := t.GetNodeByKey(key)
+func (t *AvlTree[T, K]) Update(key T, value K) bool {
+	node, ok := t.GetNode(key)
 	if !ok {
 		return false
 	}
@@ -102,17 +101,19 @@ func (t *Tree[T, K]) Update(key T, value K) bool {
 	return true
 }
 
-func (t *Tree[T, K]) Remove(key T) {
+func (t *AvlTree[T, K]) Remove(key T) {
 	if t.root == nil {
 		return
 	}
 
 	var reduceFn func(*Node[T, K], T) *Node[T, K]
 	reduceFn = func(node *Node[T, K], k T) *Node[T, K] {
-		switch {
-		case node == nil:
+		if node == nil {
 			return nil
-		case k == node.key:
+		}
+		cmpValue := t.cmp(k, node.key)
+		switch {
+		case cmpValue == 0:
 			if node.left == nil {
 				node = node.right
 				t.length--
@@ -125,10 +126,10 @@ func (t *Tree[T, K]) Remove(key T) {
 				node.value = maxInLeft.value
 				node.left = reduceFn(node.left, maxInLeft.key)
 			}
-		case t.cmp(k, node.key):
-			node.right = reduceFn(node.right, k)
-		default:
+		case cmpValue < 0:
 			node.left = reduceFn(node.left, k)
+		default:
+			node.right = reduceFn(node.right, k)
 		}
 		if node != nil {
 			node.updateHeight()

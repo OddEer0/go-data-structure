@@ -1,6 +1,6 @@
 package avltree
 
-func (t *Tree[T, K]) PreOrderFunc(callback func(*Node[T, K])) {
+func (t *AvlTree[T, K]) PreOrderFunc(callback func(*Node[T, K])) {
 	var reduce func(*Node[T, K])
 	reduce = func(node *Node[T, K]) {
 		if node != nil {
@@ -12,7 +12,7 @@ func (t *Tree[T, K]) PreOrderFunc(callback func(*Node[T, K])) {
 	reduce(t.root)
 }
 
-func (t *Tree[T, K]) InOrderFunc(callback func(*Node[T, K])) {
+func (t *AvlTree[T, K]) InOrderFunc(callback func(*Node[T, K])) {
 	var reduce func(*Node[T, K])
 	reduce = func(node *Node[T, K]) {
 		if node != nil {
@@ -24,7 +24,7 @@ func (t *Tree[T, K]) InOrderFunc(callback func(*Node[T, K])) {
 	reduce(t.root)
 }
 
-func (t *Tree[T, K]) PostOrderFunc(callback func(*Node[T, K])) {
+func (t *AvlTree[T, K]) PostOrderFunc(callback func(*Node[T, K])) {
 	var reduce func(*Node[T, K])
 	reduce = func(node *Node[T, K]) {
 		if node != nil {
