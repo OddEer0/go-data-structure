@@ -161,3 +161,69 @@ func (t *RedBlackTree[T, K]) Right() *Node[T, K] {
 	}
 	return current
 }
+
+// Copy TODO - to pre order iterator
+func (t *RedBlackTree[T, K]) Copy() Tree[T, K] {
+	if t.root == nil {
+		return &RedBlackTree[T, K]{
+			root:   nil,
+			cmp:    t.cmp,
+			length: 0,
+		}
+	}
+
+	newTree := &RedBlackTree[T, K]{
+		root:   nil,
+		cmp:    t.cmp,
+		length: t.length,
+	}
+
+	newTree.root = &Node[T, K]{
+		key:    t.root.key,
+		value:  t.root.value,
+		color:  t.root.color,
+		parent: nilNode[T, K](),
+	}
+
+	var stack, newStack []*Node[T, K]
+	stack = append(stack, t.root)
+	newStack = append(newStack, newTree.root)
+
+	for len(stack) > 0 {
+		current := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+
+		newCurrent := newStack[len(newStack)-1]
+		newStack = newStack[:len(newStack)-1]
+
+		if current.left.NotNilNode() {
+			newLeft := &Node[T, K]{
+				key:    current.left.key,
+				value:  current.left.value,
+				color:  current.left.color,
+				parent: newCurrent,
+				left:   nilNode[T, K](),
+				right:  nilNode[T, K](),
+			}
+			newCurrent.left = newLeft
+			stack = append(stack, current.left)
+			newStack = append(newStack, newLeft)
+		}
+
+		if current.right.NotNilNode() {
+			newRight := &Node[T, K]{
+				key:    current.right.key,
+				value:  current.right.value,
+				color:  current.right.color,
+				parent: newCurrent,
+				left:   nilNode[T, K](),
+				right:  nilNode[T, K](),
+			}
+			newCurrent.right = newRight
+			stack = append(stack, current.right)
+			newStack = append(newStack, newRight)
+		}
+	}
+
+	return newTree
+}

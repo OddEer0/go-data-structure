@@ -28,18 +28,20 @@ type (
 		position
 	}
 
+	// RedBlackTree TODO -Подумать на счет типа length перевести на big int либо на uint64
 	RedBlackTree[T any, K any] struct {
 		root   *Node[T, K]
 		length int
 		cmp    func(T, T) int
 	}
 
+	// Tree TODO - add pre order iterator and post order iterator
 	Tree[T any, K any] interface {
 		Root() *Node[T, K] // O(1)
 		Size() int         // O(1)
 		Clear()            // O(1)
 		IsEmpty() bool     // O(1)
-		// Copy() Tree[T, K]
+		Copy() Tree[T, K]
 
 		Insert(key T, value K) *Node[T, K] // O(log(n))
 		Remove(key T) bool                 // O(log(n))
@@ -52,11 +54,11 @@ type (
 		InsertOrUpdateMany(entries ...*Entry[T, K]) // O(n * log(k)) k - size
 		RemoveMany(keys ...T)                       // O(n * log(k)) k - size
 
+		Iterator() *Iterator[T, K]
+
 		PreOrderFunc(callback func(*Node[T, K]))  // recursive
 		InOrderFunc(callback func(*Node[T, K]))   // recursive
 		PostOrderFunc(callback func(*Node[T, K])) // recursive
-
-		Iterator() *Iterator[T, K]
 
 		Values() []K                      // recursive
 		PreOrderValues() []K              // recursive
@@ -68,7 +70,9 @@ type (
 		PreOrderEntries() []*Entry[T, K]  // recursive
 		PostOrderEntries() []*Entry[T, K] // recursive
 
+		// Right get max node in tree
 		Right() *Node[T, K]
+		// Left get min node in tree
 		Left() *Node[T, K]
 	}
 )

@@ -415,4 +415,22 @@ func TestBaseMethods(t *testing.T) {
 		assert.Equal(t, tree.Size(), 0)
 		assert.Nil(t, tree.Root())
 	})
+
+	t.Run("Should correctly copy tree", func(t *testing.T) {
+		tree := initTree2()
+		copyTree := tree.Copy()
+		assert.False(t, tree.Root() == copyTree.Root())
+
+		inOrder := tree.Values()
+		preOrder := tree.PreOrderValues()
+		postOrder := tree.PostOrderValues()
+
+		copyInOrder := copyTree.Values()
+		copyPreOrder := copyTree.PreOrderValues()
+		copyPostOrder := copyTree.PostOrderValues()
+
+		assert.Equal(t, inOrder, copyInOrder)
+		assert.Equal(t, preOrder, copyPreOrder)
+		assert.Equal(t, postOrder, copyPostOrder)
+	})
 }
