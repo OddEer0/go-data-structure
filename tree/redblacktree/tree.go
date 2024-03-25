@@ -15,6 +15,7 @@ type (
 		Value K
 	}
 
+	// Node TODO - add String() method
 	Node[T any, K any] struct {
 		key                 T
 		value               K
@@ -28,7 +29,8 @@ type (
 		position
 	}
 
-	// RedBlackTree TODO -Подумать на счет типа length перевести на big int либо на uint64
+	// RedBlackTree TODO - Подумать на счет типа length перевести на big int либо на uint64
+	// RedBlackTree TODO - add json serialization
 	RedBlackTree[T any, K any] struct {
 		root   *Node[T, K]
 		length int
@@ -36,6 +38,7 @@ type (
 	}
 
 	// Tree TODO - add pre order iterator and post order iterator
+	// Tree TODO - add String() method
 	Tree[T any, K any] interface {
 		Root() *Node[T, K] // O(1)
 		Size() int         // O(1)
