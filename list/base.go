@@ -145,3 +145,11 @@ func (l *List[T]) GetHeadNode() *Node[T] {
 func (l *List[T]) GetTailNode() *Node[T] {
 	return l.tail
 }
+
+func (l *List[T]) Peek() T {
+	return l.tail.value
+}
+
+func (l *List[T]) PeekFirst() T {
+	return l.head.value
+}

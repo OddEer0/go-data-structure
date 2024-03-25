@@ -21,6 +21,8 @@ type (
 		GetTailNode() *Node[T]
 		Push(item T)              // O(1)
 		Pop() T                   // O(1)
+		Peek() T                  // O(1)
+		PeekFirst() T             // O(1)
 		Unshift(item T)           // O(1)
 		Shift() T                 // O(1)
 		Get(index int) T          // O(n)
