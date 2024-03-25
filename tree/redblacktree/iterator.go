@@ -13,7 +13,7 @@ func (i *Iterator[T, K]) Next() bool {
 			return false
 		}
 		i.node = i.tree.Left()
-		i.position = proccess
+		i.position = process
 		return true
 	default:
 		if i.node.right.NotNilNode() {
@@ -46,7 +46,7 @@ func (i *Iterator[T, K]) Prev() bool {
 			return false
 		}
 		i.node = i.tree.Right()
-		i.position = proccess
+		i.position = process
 		return true
 	default:
 		if i.node.left.NotNilNode() {

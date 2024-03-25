@@ -3,8 +3,8 @@ package redblacktree
 import "cmp"
 
 const (
-	black, red                    = true, false
-	start, proccess, end position = 0, 1, 2
+	black, red                   = true, false
+	start, process, end position = 0, 1, 2
 )
 
 type (
