@@ -85,6 +85,8 @@ type (
 		Entries() []*Entry[T, K]          // recursive
 		PreOrderEntries() []*Entry[T, K]  // recursive
 		PostOrderEntries() []*Entry[T, K] // recursive
+
+		container.EnumWithKey[T, K, Tree[T, K]]
 	}
 )
 

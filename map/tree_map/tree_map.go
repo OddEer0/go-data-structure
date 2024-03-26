@@ -3,6 +3,7 @@ package treemap
 import (
 	"cmp"
 
+	"github.com/OddEer0/go-data-structure/container"
 	"github.com/OddEer0/go-data-structure/tree/redblacktree"
 )
 
@@ -12,10 +13,8 @@ type (
 	}
 
 	Map[T any, K any] interface {
-		Size() int     // O(1)
-		Clear()        // O(1)
-		IsEmpty() bool // O(1)
-		// Copy() Map[T, K]
+		container.Container
+		Copy() Map[T, K]
 
 		Add(key T, value K)  // O(log(n))
 		Remove(key T) bool   // O(log(n))
@@ -38,6 +37,16 @@ type (
 		tree redblacktree.Tree[T, K]
 	}
 )
+
+func (t *treeMap[T, K]) String() string {
+	return t.tree.String()
+}
+
+func (t *treeMap[T, K]) Copy() Map[T, K] {
+	return &treeMap[T, K]{
+		tree: t.tree.Copy(),
+	}
+}
 
 func (t *treeMap[T, K]) Add(key T, value K) {
 	t.tree.InsertOrUpdate(key, value)
