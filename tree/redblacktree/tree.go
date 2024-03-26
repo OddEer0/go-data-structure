@@ -52,7 +52,11 @@ type (
 		container.Container
 
 		Root() *Node[T, K] // O(1)
-		Copy() Tree[T, K]  // O(n) memory: O(2 * (relativeMaxDepth+1)) min memory 13
+		Copy() Tree[T, K]
+		// Right get max node in tree
+		Right() *Node[T, K]
+		// Left get min node in tree
+		Left() *Node[T, K] // O(n) memory: O(2 * (relativeMaxDepth+1)) min memory 13
 
 		Insert(key T, value K) *Node[T, K] // O(log(n))
 		Remove(key T) bool                 // O(log(n))
@@ -79,11 +83,6 @@ type (
 		Entries() []*Entry[T, K]          // recursive
 		PreOrderEntries() []*Entry[T, K]  // recursive
 		PostOrderEntries() []*Entry[T, K] // recursive
-
-		// Right get max node in tree
-		Right() *Node[T, K]
-		// Left get min node in tree
-		Left() *Node[T, K]
 	}
 )
 
