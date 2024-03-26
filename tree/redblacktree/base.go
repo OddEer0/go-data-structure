@@ -9,7 +9,7 @@ func (t *RedBlackTree[T, K]) String() string {
 	var str strings.Builder
 	str.WriteString("RedBlackTree\n")
 	if !t.IsEmpty() {
-		t.output(t.root, "", true, str)
+		t.output(t.root, "", true, &str)
 	}
 	return str.String()
 }
@@ -249,7 +249,7 @@ func (t *RedBlackTree[T, K]) getRelativeMaxDepth() int {
 	return int(math.Ceil(math.Log2(float64(t.Size()))*relativeToDepthMul) + 1)
 }
 
-func (t *RedBlackTree[T, K]) output(node *Node[T, K], prefix string, isTail bool, str strings.Builder) {
+func (t *RedBlackTree[T, K]) output(node *Node[T, K], prefix string, isTail bool, str *strings.Builder) {
 	if node.right.NotNilNode() {
 		newPrefix := prefix
 		if isTail {

@@ -440,4 +440,23 @@ func TestBaseMethods(t *testing.T) {
 		assert.False(t, fmt.Sprintf("%p", tree2) == fmt.Sprintf("%p", copyTree2))
 		assert.Equal(t, tree2.Size(), copyTree2.Size())
 	})
+
+	t.Run("Should correct String method", func(t *testing.T) {
+		tree := initTree2()
+		expectedString := `RedBlackTree
+│           ┌── Key: 1250, Value: 1250
+│       ┌── Key: 1220, Value: 1220
+│       │   └── Key: 1200, Value: 1200
+│   ┌── Key: 1150, Value: 1150
+│   │   └── Key: 1100, Value: 1100
+└── Key: 1050, Value: 1050
+    │   ┌── Key: 1030, Value: 1030
+    └── Key: 1000, Value: 1000
+        │   ┌── Key: 960, Value: 960
+        └── Key: 950, Value: 950
+            │   ┌── Key: 700, Value: 700
+            └── Key: 650, Value: 650
+                └── Key: 600, Value: 600` + "\n"
+		assert.Equal(t, expectedString, tree.String())
+	})
 }
