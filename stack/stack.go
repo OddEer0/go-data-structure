@@ -1,6 +1,6 @@
 package stack
 
-import "github.com/OddEer0/go-data-structure/list"
+import list "github.com/OddEer0/go-data-structure/list/double_list"
 
 type IStack[T any] interface {
 	Peek() T
@@ -10,5 +10,5 @@ type IStack[T any] interface {
 }
 
 func NewStack[T any]() IStack[T] {
-	return list.NewLinkedList[T]()
+	return list.New[T]()
 }

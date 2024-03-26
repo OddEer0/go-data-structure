@@ -36,6 +36,12 @@ func TestBaseDoubleList(t *testing.T) {
 
 		assert.Equal(t, 8, list.Size())
 		assert.Equal(t, 8, list.Pop())
+
+		list = doublelist.New[int]()
+		var tmp int
+		assert.Equal(t, 0, list.Size())
+		assert.Equal(t, tmp, list.Pop())
+		assert.Equal(t, 0, list.Size())
 	})
 
 	t.Run("Should correct Peek", func(t *testing.T) {
@@ -66,6 +72,12 @@ func TestBaseDoubleList(t *testing.T) {
 
 		assert.Equal(t, 8, list.Size())
 		assert.Equal(t, 2, list.Shift())
+
+		list = doublelist.New[int]()
+		var tmp int
+		assert.Equal(t, 0, list.Size())
+		assert.Equal(t, tmp, list.Shift())
+		assert.Equal(t, 0, list.Size())
 	})
 
 	t.Run("Should correct IsEmpty", func(t *testing.T) {
@@ -310,5 +322,13 @@ func TestBaseDoubleList(t *testing.T) {
 		assert.Equal(t, 2, list.Size())
 		assert.Equal(t, 3, list.Head().Next().Value())
 		assert.Equal(t, 1, list.Tail().Prev().Value())
+
+		list.Push(4)
+		list.Push(5)
+		list.Push(6)
+		err = list.Remove(2)
+		assert.Nil(t, err)
+		assert.Equal(t, 4, list.Size())
+		assert.Equal(t, "1 3 5 6", list.String())
 	})
 }

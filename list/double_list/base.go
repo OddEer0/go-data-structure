@@ -131,15 +131,14 @@ func (l *list[T]) Copy() List[T] {
 }
 
 func (l *list[T]) Remove(index int) error {
-	if index < 0 || index >= l.length {
+	switch {
+	case index < 0 || index >= l.length:
 		return ErrOutOfRange
-	}
-
-	if index == 0 {
+	case index == 0:
 		l.Shift()
-	} else if index == l.length-1 {
+	case index == l.length-1:
 		l.Pop()
-	} else {
+	default:
 		current := l.head.next
 		for i := 1; i < index; i++ {
 			current = current.next
@@ -148,7 +147,6 @@ func (l *list[T]) Remove(index int) error {
 		current.next.prev = current.prev
 		l.length--
 	}
-
 	return nil
 }
 
@@ -177,20 +175,16 @@ func (l *list[T]) Get(index int) (T, error) {
 }
 
 func (l *list[T]) Insert(index int, item T) error {
-	if index > l.length || index < 0 {
+	switch {
+	case index > l.length || index < 0:
 		return ErrOutOfRange
-	}
-
-	if index == 0 {
+	case index == 0:
 		l.Unshift(item)
-	} else if index == l.length {
+	case index == l.length:
 		l.Push(item)
-	} else {
+	default:
 		newNode := &Node[T]{item, nil, nil}
-		current, err := l.GetNode(index - 1)
-		if err != nil {
-			return err
-		}
+		current, _ := l.GetNode(index - 1)
 		newNode.next = current.next
 		current.next.prev = newNode
 		newNode.prev = current
