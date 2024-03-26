@@ -25,12 +25,7 @@ type (
 
 		Iterator() *Iterator[T, K]
 
-		// enumerable
-		// ForEach
-		// ForEachLast
-		// Map
-		// Filter
-		// Concat
+		container.EnumWithKey[T, K, Map[T, K]]
 	}
 
 	treeMap[T any, K any] struct {
