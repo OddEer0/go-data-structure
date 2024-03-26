@@ -1,5 +1,19 @@
 package redblacktree
 
+import (
+	"math"
+	"strings"
+)
+
+func (t *RedBlackTree[T, K]) String() string {
+	var str strings.Builder
+	str.WriteString("RedBlackTree\n")
+	if !t.IsEmpty() {
+		t.output(t.root, "", true, str)
+	}
+	return str.String()
+}
+
 func (t *RedBlackTree[T, K]) Root() *Node[T, K] {
 	return t.root
 }
@@ -184,7 +198,8 @@ func (t *RedBlackTree[T, K]) Copy() Tree[T, K] {
 		parent: nilNode[T, K](),
 	}
 
-	var stack, newStack []*Node[T, K]
+	depth := t.getRelativeMaxDepth()
+	stack, newStack := make([]*Node[T, K], 0, depth), make([]*Node[T, K], 0, depth)
 	stack = append(stack, t.root)
 	newStack = append(newStack, newTree.root)
 
@@ -225,4 +240,40 @@ func (t *RedBlackTree[T, K]) Copy() Tree[T, K] {
 	}
 
 	return newTree
+}
+
+func (t *RedBlackTree[T, K]) getRelativeMaxDepth() int {
+	if t.Size() <= defaultMaxDepthLimit {
+		return defaultMaxDepth
+	}
+	return int(math.Ceil(math.Log2(float64(t.Size()))*relativeToDepthMul) + 1)
+}
+
+func (t *RedBlackTree[T, K]) output(node *Node[T, K], prefix string, isTail bool, str strings.Builder) {
+	if node.right.NotNilNode() {
+		newPrefix := prefix
+		if isTail {
+			newPrefix += "│   "
+		} else {
+			newPrefix += "    "
+		}
+		t.output(node.right, newPrefix, false, str)
+	}
+	str.WriteString(prefix)
+	if isTail {
+		str.WriteString("└── ")
+	} else {
+		str.WriteString("┌── ")
+	}
+	str.WriteString(node.String())
+	str.WriteRune('\n')
+	if node.left.NotNilNode() {
+		newPrefix := prefix
+		if isTail {
+			newPrefix += "    "
+		} else {
+			newPrefix += "│   "
+		}
+		t.output(node.left, newPrefix, true, str)
+	}
 }

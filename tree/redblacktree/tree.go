@@ -3,10 +3,11 @@ package redblacktree
 import "cmp"
 
 const (
-	defaultMaxDepth              = 7
-	relativeToDepthMul           = 1.4
-	black, red                   = true, false
-	start, process, end position = 0, 1, 2
+	defaultMaxDepth               = 13
+	defaultMaxDepthLimit          = 500
+	relativeToDepthMul            = 1.2
+	black, red                    = true, false
+	start, process, end  position = 0, 1, 2
 )
 
 type (
@@ -44,11 +45,13 @@ type (
 	}
 
 	Tree[T any, K any] interface {
+		Size() int     // O(1)
+		Clear()        // O(1)
+		IsEmpty() bool // O(1)
+		String() string
+
 		Root() *Node[T, K] // O(1)
-		Size() int         // O(1)
-		Clear()            // O(1)
-		IsEmpty() bool     // O(1)
-		Copy() Tree[T, K]
+		Copy() Tree[T, K]  // O(n) memory: O(2 * (relativeMaxDepth+1)) min memory 13
 
 		Insert(key T, value K) *Node[T, K] // O(log(n))
 		Remove(key T) bool                 // O(log(n))
