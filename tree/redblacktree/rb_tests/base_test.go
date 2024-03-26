@@ -1,6 +1,7 @@
 package rbtests
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/OddEer0/go-data-structure/tree/redblacktree"
@@ -419,7 +420,8 @@ func TestBaseMethods(t *testing.T) {
 	t.Run("Should correctly copy tree", func(t *testing.T) {
 		tree := initTree2()
 		copyTree := tree.Copy()
-		assert.False(t, tree.Root() == copyTree.Root())
+		assert.False(t, fmt.Sprintf("%p", tree.Root()) == fmt.Sprintf("%p", copyTree.Root()))
+		assert.Equal(t, tree.Size(), copyTree.Size())
 
 		inOrder := tree.Values()
 		preOrder := tree.PreOrderValues()
@@ -432,5 +434,10 @@ func TestBaseMethods(t *testing.T) {
 		assert.Equal(t, inOrder, copyInOrder)
 		assert.Equal(t, preOrder, copyPreOrder)
 		assert.Equal(t, postOrder, copyPostOrder)
+
+		tree2 := redblacktree.New[int, int]()
+		copyTree2 := tree2.Copy()
+		assert.False(t, fmt.Sprintf("%p", tree2) == fmt.Sprintf("%p", copyTree2))
+		assert.Equal(t, tree2.Size(), copyTree2.Size())
 	})
 }
