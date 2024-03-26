@@ -1,6 +1,10 @@
 package redblacktree
 
-import "cmp"
+import (
+	"cmp"
+
+	"github.com/OddEer0/go-data-structure/container"
+)
 
 const (
 	defaultMaxDepth               = 13
@@ -45,10 +49,7 @@ type (
 	}
 
 	Tree[T any, K any] interface {
-		Size() int     // O(1)
-		Clear()        // O(1)
-		IsEmpty() bool // O(1)
-		String() string
+		container.Container
 
 		Root() *Node[T, K] // O(1)
 		Copy() Tree[T, K]  // O(n) memory: O(2 * (relativeMaxDepth+1)) min memory 13
@@ -59,10 +60,8 @@ type (
 		GetNode(key T) (*Node[T, K], bool) // O(log(n))
 		Get(key T) (K, bool)               // O(log(n))
 
-		InsertOrUpdate(key T, value K)              // O(log(n))
 		InsertMany(entries ...*Entry[T, K])         // O(n * log(k)) k - size
 		InsertOrUpdateMany(entries ...*Entry[T, K]) // O(n * log(k)) k - size
-		RemoveMany(keys ...T)                       // O(n * log(k)) k - size
 
 		Iterator() *Iterator[T, K]
 		PreOrderIterator() *PreOrderIterator[T, K]
