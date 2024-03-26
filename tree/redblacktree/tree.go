@@ -114,7 +114,6 @@ func NewNode[T any, K any](key T, value K) *Node[T, K] {
 	}
 }
 
-// New TODO - test copy tree 1000 elements
 // New TODO - add Enum tests
 // New TODO - add with hard cmp tests
 func New[T cmp.Ordered, K any]() Tree[T, K] {

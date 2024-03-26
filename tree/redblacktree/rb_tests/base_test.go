@@ -423,22 +423,23 @@ func TestBaseMethods(t *testing.T) {
 		assert.False(t, fmt.Sprintf("%p", tree.Root()) == fmt.Sprintf("%p", copyTree.Root()))
 		assert.Equal(t, tree.Size(), copyTree.Size())
 
-		inOrder := tree.Values()
-		preOrder := tree.PreOrderValues()
-		postOrder := tree.PostOrderValues()
-
-		copyInOrder := copyTree.Values()
-		copyPreOrder := copyTree.PreOrderValues()
-		copyPostOrder := copyTree.PostOrderValues()
-
-		assert.Equal(t, inOrder, copyInOrder)
-		assert.Equal(t, preOrder, copyPreOrder)
-		assert.Equal(t, postOrder, copyPostOrder)
+		assert.Equal(t, tree.Values(), copyTree.Values())
+		assert.Equal(t, tree.PreOrderValues(), copyTree.PreOrderValues())
+		assert.Equal(t, tree.PostOrderValues(), copyTree.PostOrderValues())
 
 		tree2 := redblacktree.New[int, int]()
 		copyTree2 := tree2.Copy()
 		assert.False(t, fmt.Sprintf("%p", tree2) == fmt.Sprintf("%p", copyTree2))
 		assert.Equal(t, tree2.Size(), copyTree2.Size())
+
+		tree3 := redblacktree.New[int, int]()
+		for i := 1; i <= 3000; i++ {
+			tree3.Insert(i, i)
+		}
+		copyTree3 := tree3.Copy()
+		assert.Equal(t, tree3.Values(), copyTree3.Values())
+		assert.Equal(t, tree3.PreOrderValues(), copyTree3.PreOrderValues())
+		assert.Equal(t, tree3.PostOrderValues(), copyTree3.PostOrderValues())
 	})
 
 	t.Run("Should correct String method", func(t *testing.T) {
