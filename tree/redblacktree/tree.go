@@ -49,6 +49,7 @@ type (
 
 	Tree[T any, K any] interface {
 		container.Container
+		container.EnumWithKey[T, K, Tree[T, K]]
 
 		Root() *Node[T, K] // O(1)
 		Copy() Tree[T, K]
@@ -84,8 +85,6 @@ type (
 		Entries() []*Entry[T, K]          // recursive
 		PreOrderEntries() []*Entry[T, K]  // recursive
 		PostOrderEntries() []*Entry[T, K] // recursive
-
-		container.EnumWithKey[T, K, Tree[T, K]]
 	}
 )
 
@@ -114,7 +113,6 @@ func NewNode[T any, K any](key T, value K) *Node[T, K] {
 	}
 }
 
-// New TODO - add Enum tests
 // New TODO - add with hard cmp tests
 func New[T cmp.Ordered, K any]() Tree[T, K] {
 	return &RedBlackTree[T, K]{
