@@ -64,6 +64,8 @@ type (
 		GetNode(key T) (*Node[T, K], bool) // O(log(n))
 		Get(key T) (K, bool)               // O(log(n))
 
+		InsertOrUpdate(key T, value K)
+		RemoveMany(keys ...T)
 		InsertMany(entries ...*Entry[T, K])         // O(n * log(k)) k - size
 		InsertOrUpdateMany(entries ...*Entry[T, K]) // O(n * log(k)) k - size
 
