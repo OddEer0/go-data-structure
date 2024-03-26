@@ -113,7 +113,6 @@ func NewNode[T any, K any](key T, value K) *Node[T, K] {
 	}
 }
 
-// New TODO - add with hard cmp tests
 func New[T cmp.Ordered, K any]() Tree[T, K] {
 	return &RedBlackTree[T, K]{
 		root:   nil,
