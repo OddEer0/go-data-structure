@@ -3,6 +3,8 @@ package redblacktree
 import "cmp"
 
 const (
+	defaultMaxDepth              = 7
+	relativeToDepthMul           = 1.4
 	black, red                   = true, false
 	start, process, end position = 0, 1, 2
 )
@@ -15,7 +17,6 @@ type (
 		Value K
 	}
 
-	// Node TODO - add String() method
 	Node[T any, K any] struct {
 		key                 T
 		value               K
@@ -29,7 +30,12 @@ type (
 		position
 	}
 
-	// RedBlackTree TODO - Подумать на счет типа length перевести на big int либо на uint64
+	PreOrderIterator[T any, K any] struct {
+		tree *RedBlackTree[T, K]
+		node *Node[T, K]
+		position
+	}
+
 	// RedBlackTree TODO - add json serialization
 	RedBlackTree[T any, K any] struct {
 		root   *Node[T, K]
@@ -37,8 +43,6 @@ type (
 		cmp    func(T, T) int
 	}
 
-	// Tree TODO - add pre order iterator and post order iterator
-	// Tree TODO - add String() method
 	Tree[T any, K any] interface {
 		Root() *Node[T, K] // O(1)
 		Size() int         // O(1)
@@ -58,6 +62,7 @@ type (
 		RemoveMany(keys ...T)                       // O(n * log(k)) k - size
 
 		Iterator() *Iterator[T, K]
+		PreOrderIterator() *PreOrderIterator[T, K]
 
 		PreOrderFunc(callback func(*Node[T, K]))  // recursive
 		InOrderFunc(callback func(*Node[T, K]))   // recursive

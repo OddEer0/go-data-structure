@@ -1,5 +1,11 @@
 package redblacktree
 
+import "fmt"
+
+func (n *Node[T, K]) String() string {
+	return fmt.Sprintf("key: %v, value: %v", n.Key, n.Value)
+}
+
 func (n *Node[T, K]) Key() T {
 	return n.key
 }

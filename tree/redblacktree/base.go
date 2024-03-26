@@ -162,7 +162,6 @@ func (t *RedBlackTree[T, K]) Right() *Node[T, K] {
 	return current
 }
 
-// Copy TODO - to pre order iterator
 func (t *RedBlackTree[T, K]) Copy() Tree[T, K] {
 	if t.root == nil {
 		return &RedBlackTree[T, K]{
