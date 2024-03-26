@@ -19,7 +19,7 @@ func (i *Iterator[T]) Next() bool {
 		}
 		i.current = i.list.head
 		i.position = process
-		i.index++
+		i.index = 0
 		return true
 	default:
 		i.current = i.current.next
@@ -42,7 +42,7 @@ func (i *Iterator[T]) Prev() bool {
 		}
 		i.current = i.list.tail
 		i.position = process
-		i.index--
+		i.index = i.list.Size() - 1
 		return true
 	default:
 		i.current = i.current.prev
