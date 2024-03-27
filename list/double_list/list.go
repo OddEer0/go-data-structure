@@ -36,10 +36,8 @@ type (
 		Head() *Node[T]
 		Tail() *Node[T]
 
-		// Add tests
 		Iterator() *Iterator[T]
 
-		// Add tests
 		container.EnumWitIndex[T, List[T]]
 
 		Push(value T)
