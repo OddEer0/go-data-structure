@@ -65,10 +65,6 @@ type (
 		Reverse()
 		ToReversed() List[T]
 		Slice(start int, end int) (List[T], error)
-		// Sort
-		// ToSorted
-		// Splice
-		// ToSpliced
 	}
 
 	list[T any] struct {
