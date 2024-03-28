@@ -48,7 +48,6 @@ func (q queue[T]) Copy() Queue[T] {
 	return &queue[T]{list: q.list.Copy()}
 }
 
-// New TODO - add tests
 func New[T any]() Queue[T] {
 	return &queue[T]{list: list.New[T]()}
 }
