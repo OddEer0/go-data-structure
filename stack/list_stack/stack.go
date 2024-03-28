@@ -5,9 +5,16 @@ import (
 	stackInterface "github.com/OddEer0/go-data-structure/stack"
 )
 
-type stack[T any] struct {
-	list list.List[T]
-}
+type (
+	Stack[T any] interface {
+		stackInterface.Stack[T]
+		Copy() Stack[T]
+	}
+
+	stack[T any] struct {
+		list list.List[T]
+	}
+)
 
 func (s *stack[T]) Size() int {
 	return s.list.Size()
@@ -37,6 +44,10 @@ func (s *stack[T]) Peek() T {
 	return s.list.Peek()
 }
 
-func New[T any]() stackInterface.Stack[T] {
+func (s *stack[T]) Copy() Stack[T] {
+	return &stack[T]{list: s.list.Copy()}
+}
+
+func New[T any]() Stack[T] {
 	return &stack[T]{list: list.New[T]()}
 }
