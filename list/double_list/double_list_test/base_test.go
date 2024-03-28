@@ -9,22 +9,17 @@ import (
 )
 
 func initList() doublelist.List[int] {
-	list := doublelist.New[int]()
-
-	for i := 1; i < 10; i++ {
-		list.Push(i)
-	}
-
+	list := doublelist.New[int](1, 2, 3, 4, 5, 6, 7, 8, 9)
 	return list
 }
 
 func TestBaseDoubleList(t *testing.T) {
 	t.Run("Should correct Push", func(t *testing.T) {
 		list := doublelist.New[int]()
+		list.Push()
 		assert.Equal(t, list.Size(), 0)
 
-		list.Push(1)
-		list.Push(2)
+		list.Push(1, 2)
 		list.Push(3)
 		assert.Equal(t, list.Size(), 3)
 	})
@@ -57,10 +52,10 @@ func TestBaseDoubleList(t *testing.T) {
 
 	t.Run("Should correct Unshift", func(t *testing.T) {
 		list := doublelist.New[int]()
+		list.Unshift()
 		assert.Equal(t, list.Size(), 0)
 
-		list.Unshift(1)
-		list.Unshift(2)
+		list.Unshift(1, 2)
 		list.Unshift(3)
 		assert.Equal(t, list.Size(), 3)
 	})

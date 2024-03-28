@@ -39,19 +39,21 @@ func (l *list[T]) Clear() {
 	l.length = 0
 }
 
-func (l *list[T]) Push(item T) {
-	newNode := &Node[T]{item, nil, nil}
+func (l *list[T]) Push(items ...T) {
+	for _, item := range items {
+		newNode := &Node[T]{item, nil, nil}
 
-	if l.head == nil {
-		l.head = newNode
-		l.tail = newNode
-	} else {
-		l.tail.next = newNode
-		newNode.prev = l.tail
-		l.tail = newNode
+		if l.head == nil {
+			l.head = newNode
+			l.tail = newNode
+		} else {
+			l.tail.next = newNode
+			newNode.prev = l.tail
+			l.tail = newNode
+		}
+
+		l.length++
 	}
-
-	l.length++
 }
 
 func (l *list[T]) Peek() T {
@@ -80,19 +82,21 @@ func (l *list[T]) Pop() T {
 	return result
 }
 
-func (l *list[T]) Unshift(item T) {
-	newNode := &Node[T]{item, nil, nil}
+func (l *list[T]) Unshift(items ...T) {
+	for _, item := range items {
+		newNode := &Node[T]{item, nil, nil}
 
-	if l.head == nil {
-		l.head = newNode
-		l.tail = newNode
-	} else {
-		l.head.prev = newNode
-		newNode.next = l.head
-		l.head = newNode
+		if l.head == nil {
+			l.head = newNode
+			l.tail = newNode
+		} else {
+			l.head.prev = newNode
+			newNode.next = l.head
+			l.head = newNode
+		}
+
+		l.length++
 	}
-
-	l.length++
 }
 
 func (l *list[T]) Shift() T {

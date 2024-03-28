@@ -41,10 +41,10 @@ type (
 
 		container.EnumWitIndex[T, List[T]]
 
-		Push(value T)
+		Push(value ...T)
 		Peek() T
 		Pop() T
-		Unshift(value T)
+		Unshift(value ...T)
 		Shift() T
 
 		Insert(index int, item T) error
@@ -74,6 +74,8 @@ type (
 	}
 )
 
-func New[T any]() List[T] {
-	return &list[T]{nil, nil, 0}
+func New[T any](init ...T) List[T] {
+	l := &list[T]{nil, nil, 0}
+	l.Push(init...)
+	return l
 }
