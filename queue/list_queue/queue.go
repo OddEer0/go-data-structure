@@ -32,8 +32,8 @@ func (q queue[T]) String() string {
 	return q.list.String()
 }
 
-func (q queue[T]) Unshift(item T) {
-	q.list.Unshift(item)
+func (q queue[T]) Unshift(items ...T) {
+	q.list.Unshift(items...)
 }
 
 func (q queue[T]) Shift() T {

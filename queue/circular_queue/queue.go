@@ -57,17 +57,16 @@ func (q *queue[T]) String() string {
 	return str.String()
 }
 
-func (q *queue[T]) Unshift(item T) {
-	if q.length == len(q.buffer) {
-		return
+func (q *queue[T]) Unshift(items ...T) {
+	for i := 0; q.length < len(q.buffer) && i < len(items); i++ {
+		q.buffer[q.end] = items[i]
+		if q.end == len(q.buffer)-1 {
+			q.end = 0
+		} else {
+			q.end++
+		}
+		q.length++
 	}
-	q.buffer[q.end] = item
-	if q.end == len(q.buffer)-1 {
-		q.end = 0
-	} else {
-		q.end++
-	}
-	q.length++
 }
 
 func (q *queue[T]) Shift() T {

@@ -9,6 +9,7 @@ import (
 func TestCircularQueue(t *testing.T) {
 	t.Run("Should correct Unshift", func(t *testing.T) {
 		queue := circularqueue.New[int](4)
+		queue.Unshift()
 		assert.Equal(t, 0, queue.Size())
 		queue.Unshift(1)
 		assert.Equal(t, 1, queue.Size())
@@ -72,10 +73,7 @@ func TestCircularQueue(t *testing.T) {
 	t.Run("Should correct IsEmpty", func(t *testing.T) {
 		queue := circularqueue.New[int](4)
 		assert.True(t, queue.IsEmpty())
-		queue.Unshift(1)
-		queue.Unshift(2)
-		queue.Unshift(3)
-		queue.Unshift(4)
+		queue.Unshift(1, 2, 3, 4, 5, 6)
 		assert.False(t, queue.IsEmpty())
 		queue.Shift()
 		queue.Shift()
@@ -100,7 +98,7 @@ func TestCircularQueue(t *testing.T) {
 		queue.Shift()
 		queue.Shift()
 		queue.Unshift(5)
-		queue.Unshift(6)
+		queue.Unshift(6, 7, 8)
 		assert.Equal(t, "3 4 5 6", queue.String())
 	})
 
