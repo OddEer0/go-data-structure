@@ -1,13 +1,10 @@
 package queue
 
-import list "github.com/OddEer0/go-data-structure/list/double_list"
+import "github.com/OddEer0/go-data-structure/container"
 
-type IQueue[T any] interface {
+type Queue[T any] interface {
+	container.Container
 	Unshift(item T)
 	Shift() T
-	Size() int
-}
-
-func NewQueue[T any]() IQueue[T] {
-	return list.New[T]()
+	Peek() T
 }
