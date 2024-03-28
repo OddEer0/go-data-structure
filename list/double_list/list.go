@@ -53,8 +53,6 @@ type (
 		GetNode(index int) (*Node[T], error)
 		Update(index int, item T) error
 
-		// Add tests
-
 		As(index int) (T, error)
 		Find(func(index int, item T) bool) (T, bool)
 		FindIndex(func(index int, item T) bool) int
