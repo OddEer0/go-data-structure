@@ -2,17 +2,12 @@ package doublelist
 
 import "reflect"
 
-func (l *list[T]) As(index int) T {
-	correctIndex := index
-	if correctIndex < 0 {
-		correctIndex = l.Size() + correctIndex
+func (l *list[T]) As(index int) (T, error) {
+	if index < 0 {
+		index = l.Size() + index
 	}
-	if correctIndex < 0 || correctIndex >= l.Size() {
-		var res T
-		return res
-	}
-	res, _ := l.Get(correctIndex)
-	return res
+
+	return l.Get(index)
 }
 
 func (l *list[T]) Find(callback func(index int, item T) bool) (T, bool) {
@@ -36,19 +31,10 @@ func (l *list[T]) FindIndex(callback func(index int, item T) bool) int {
 	return -1
 }
 
-func (l *list[T]) Reduce(callback func(index int, item T) interface{}, init interface{}) interface{} {
+func (l *list[T]) Reduce(callback func(acc interface{}, index int, item T) interface{}, init interface{}) interface{} {
 	it := l.Iterator()
 	for it.Next() {
-		init = callback(it.Index(), it.Value())
-	}
-
-	return init
-}
-func (l *list[T]) ReduceRight(callback func(index int, item T) interface{}, init interface{}) interface{} {
-	it := l.Iterator()
-	it.End()
-	for it.Prev() {
-		init = callback(it.Index(), it.Value())
+		init = callback(init, it.Index(), it.Value())
 	}
 
 	return init
@@ -64,28 +50,16 @@ func (l *list[T]) Contains(item T) bool {
 	return false
 }
 
-func (l *list[T]) Search(item T) T {
+func (l *list[T]) Search(item T) (T, bool) {
 	current := l.head
 	for current != nil {
 		if reflect.DeepEqual(item, current.value) {
-			return current.value
+			return current.value, true
 		}
 		current = current.next
 	}
 	var res T
-	return res
-}
-
-func (l *list[T]) SearchLast(item T) T {
-	current := l.tail
-	for current != nil {
-		if reflect.DeepEqual(item, current.value) {
-			return current.value
-		}
-		current = current.prev
-	}
-	var res T
-	return res
+	return res, false
 }
 
 func (l *list[T]) IndexOf(item T) int {
@@ -115,6 +89,9 @@ func (l *list[T]) LastIndexOf(item T) int {
 }
 
 func (l *list[T]) Swap(first int, second int) error {
+	if first == second {
+		return nil
+	}
 	tmp, err := l.Get(first)
 	if err != nil {
 		return err
@@ -123,14 +100,8 @@ func (l *list[T]) Swap(first int, second int) error {
 	if err != nil {
 		return err
 	}
-	err = l.Update(first, sec)
-	if err != nil {
-		return err
-	}
-	err = l.Update(second, tmp)
-	if err != nil {
-		return err
-	}
+	_ = l.Update(first, sec)
+	_ = l.Update(second, tmp)
 	return nil
 }
 
@@ -149,7 +120,10 @@ func (l *list[T]) ToReversed() List[T] {
 }
 
 func (l *list[T]) Slice(start int, end int) (List[T], error) {
-	if start < 0 || end < 0 || start >= l.Size() || end >= l.Size() {
+	if end <= start {
+		return nil, ErrEndIndexLessOrEqualStart
+	}
+	if start < 0 || start >= l.Size() || end > l.Size() {
 		return nil, ErrOutOfRange
 	}
 	newList := New[T]()

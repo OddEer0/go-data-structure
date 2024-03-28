@@ -13,7 +13,8 @@ const (
 )
 
 var (
-	ErrOutOfRange = errors.New("out of range")
+	ErrOutOfRange               = errors.New("out of range")
+	ErrEndIndexLessOrEqualStart = errors.New("end index less or equal start")
 )
 
 type (
@@ -54,14 +55,12 @@ type (
 
 		// Add tests
 
-		As(index int) T
+		As(index int) (T, error)
 		Find(func(index int, item T) bool) (T, bool)
 		FindIndex(func(index int, item T) bool) int
-		Reduce(callback func(index int, item T) interface{}, init interface{}) interface{}
-		ReduceRight(callback func(index int, item T) interface{}, init interface{}) interface{}
+		Reduce(callback func(acc interface{}, index int, item T) interface{}, init interface{}) interface{}
 		Contains(item T) bool
-		Search(item T) T
-		SearchLast(item T) T
+		Search(item T) (T, bool)
 		IndexOf(item T) int
 		LastIndexOf(item T) int
 		Swap(first int, second int) error
