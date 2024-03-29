@@ -20,6 +20,7 @@ func TestListStack(t *testing.T) {
 
 	t.Run("Should correct Push", func(t *testing.T) {
 		stack := arraystack.New[int]()
+		stack.Push()
 		assert.Equal(t, 0, stack.Size())
 
 		stack.Push(1)
@@ -54,8 +55,7 @@ func TestListStack(t *testing.T) {
 
 	t.Run("Should correct Clear", func(t *testing.T) {
 		stack := arraystack.New[int]()
-		stack.Push(1)
-		stack.Push(2)
+		stack.Push(1, 2)
 		stack.Push(2)
 		assert.Equal(t, 3, stack.Size())
 		stack.Clear()

@@ -32,8 +32,8 @@ func (s *stack[T]) String() string {
 	return s.list.String()
 }
 
-func (s *stack[T]) Push(value T) {
-	s.list.Push(value)
+func (s *stack[T]) Push(value ...T) {
+	s.list.Push(value...)
 }
 
 func (s *stack[T]) Pop() T {

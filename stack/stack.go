@@ -6,7 +6,7 @@ import (
 
 type Stack[T any] interface {
 	container.Container
-	Push(value T)
+	Push(value ...T)
 	Pop() T
 	Peek() T
 }

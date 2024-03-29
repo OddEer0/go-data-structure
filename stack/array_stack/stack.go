@@ -49,8 +49,11 @@ func (s *stack[T]) String() string {
 	return str.String()
 }
 
-func (s *stack[T]) Push(value T) {
-	s.arr = append(s.arr, value)
+func (s *stack[T]) Push(value ...T) {
+	if len(value) == 0 {
+		return
+	}
+	s.arr = append(s.arr, value...)
 }
 
 func (s *stack[T]) Pop() T {
