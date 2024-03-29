@@ -39,7 +39,7 @@ type (
 
 		Iterator() *Iterator[T]
 
-		container.EnumWitIndex[T, List[T]]
+		container.EnumWithIndex[T, List[T]]
 
 		Push(value ...T)
 		Peek() T

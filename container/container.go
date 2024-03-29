@@ -28,7 +28,7 @@ type (
 		Concat(others ...Q) Q
 	}
 
-	EnumWitIndex[K any, Q any] interface {
+	EnumWithIndex[K any, Q any] interface {
 		Each(func(index int, val K))
 		EachLast(func(index int, val K))
 		Some(func(index int, val K) bool) bool
