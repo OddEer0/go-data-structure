@@ -1,6 +1,7 @@
 package rbtests
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/OddEer0/go-data-structure/tree/redblacktree"
@@ -414,5 +415,49 @@ func TestBaseMethods(t *testing.T) {
 		assert.Equal(t, tree.IsEmpty(), true)
 		assert.Equal(t, tree.Size(), 0)
 		assert.Nil(t, tree.Root())
+	})
+
+	t.Run("Should correctly copy tree", func(t *testing.T) {
+		tree := initTree2()
+		copyTree := tree.Copy()
+		assert.False(t, fmt.Sprintf("%p", tree.Root()) == fmt.Sprintf("%p", copyTree.Root()))
+		assert.Equal(t, tree.Size(), copyTree.Size())
+
+		assert.Equal(t, tree.Values(), copyTree.Values())
+		assert.Equal(t, tree.PreOrderValues(), copyTree.PreOrderValues())
+		assert.Equal(t, tree.PostOrderValues(), copyTree.PostOrderValues())
+
+		tree2 := redblacktree.New[int, int]()
+		copyTree2 := tree2.Copy()
+		assert.False(t, fmt.Sprintf("%p", tree2) == fmt.Sprintf("%p", copyTree2))
+		assert.Equal(t, tree2.Size(), copyTree2.Size())
+
+		tree3 := redblacktree.New[int, int]()
+		for i := 1; i <= 3000; i++ {
+			tree3.Insert(i, i)
+		}
+		copyTree3 := tree3.Copy()
+		assert.Equal(t, tree3.Values(), copyTree3.Values())
+		assert.Equal(t, tree3.PreOrderValues(), copyTree3.PreOrderValues())
+		assert.Equal(t, tree3.PostOrderValues(), copyTree3.PostOrderValues())
+	})
+
+	t.Run("Should correct String method", func(t *testing.T) {
+		tree := initTree2()
+		expectedString := `RedBlackTree
+│           ┌── Key: 1250, Value: 1250
+│       ┌── Key: 1220, Value: 1220
+│       │   └── Key: 1200, Value: 1200
+│   ┌── Key: 1150, Value: 1150
+│   │   └── Key: 1100, Value: 1100
+└── Key: 1050, Value: 1050
+    │   ┌── Key: 1030, Value: 1030
+    └── Key: 1000, Value: 1000
+        │   ┌── Key: 960, Value: 960
+        └── Key: 950, Value: 950
+            │   ┌── Key: 700, Value: 700
+            └── Key: 650, Value: 650
+                └── Key: 600, Value: 600` + "\n"
+		assert.Equal(t, expectedString, tree.String())
 	})
 }

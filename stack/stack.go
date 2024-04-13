@@ -1,14 +1,12 @@
 package stack
 
-import "github.com/OddEer0/go-data-structure/list"
+import (
+	"github.com/OddEer0/go-data-structure/container"
+)
 
-type IStack[T any] interface {
-	Peek() T
-	Push(value T)
+type Stack[T any] interface {
+	container.Container
+	Push(value ...T)
 	Pop() T
-	Size() int
-}
-
-func NewStack[T any]() IStack[T] {
-	return list.NewLinkedList[T]()
+	Peek() T
 }

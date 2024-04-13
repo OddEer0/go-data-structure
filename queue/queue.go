@@ -1,14 +1,10 @@
 package queue
 
-import "github.com/OddEer0/go-data-structure/list"
+import "github.com/OddEer0/go-data-structure/container"
 
-type IQueue[T any] interface {
-	PeekFirst() T
-	Unshift(item T)
+type Queue[T any] interface {
+	container.Container
+	Unshift(items ...T)
 	Shift() T
-	Size() int
-}
-
-func NewQueue[T any]() IQueue[T] {
-	return list.NewLinkedList[T]()
+	Peek() T
 }

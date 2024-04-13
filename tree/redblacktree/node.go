@@ -1,5 +1,15 @@
 package redblacktree
 
+import "fmt"
+
+type KeyStringer interface {
+	String() string
+}
+
+func (n *Node[T, K]) String() string {
+	return fmt.Sprintf("Key: %v, Value: %v", n.key, n.value)
+}
+
 func (n *Node[T, K]) Key() T {
 	return n.key
 }
