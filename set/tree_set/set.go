@@ -34,7 +34,7 @@ type (
 
 		Values() []T
 	}
-
+	// set Лучше создать новый tree у которого в узлах не будет value. Сейчас каждый узел содержит на 1 байт памяти(Это плохо)
 	set[T any, K any] struct {
 		cmp  func(a, b T) int
 		tree redblacktree.Tree[T, bool]
